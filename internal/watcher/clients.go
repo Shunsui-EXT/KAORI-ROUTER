@@ -13,12 +13,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/redisqueue"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher/diff"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher/synthesizer"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/redisqueue"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/diff"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/synthesizer"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	log "github.com/sirupsen/logrus"
 )
 

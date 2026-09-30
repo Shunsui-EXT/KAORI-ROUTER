@@ -3,7 +3,7 @@ package helps
 import (
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

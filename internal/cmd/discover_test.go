@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/discovery"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/discovery"
 )
 
 type fakeBrowser struct {

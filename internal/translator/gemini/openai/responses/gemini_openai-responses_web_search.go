@@ -7,8 +7,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	translatorcommon "github.com/router-for-me/CLIProxyAPI/v8/internal/translator/common"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	translatorcommon "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/common"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

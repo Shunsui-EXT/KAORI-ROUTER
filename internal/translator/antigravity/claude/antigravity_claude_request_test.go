@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/cache"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	internalsignature "github.com/router-for-me/CLIProxyAPI/v8/internal/signature"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/cache"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	internalsignature "github.com/Shunsui-EXT/KAORI-ROUTER/internal/signature"
 	log "github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/tidwall/gjson"

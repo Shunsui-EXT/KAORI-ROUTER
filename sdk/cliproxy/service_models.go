@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/constant"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/modelconfig"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/constant"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/modelconfig"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 // registerModelsForAuth (re)binds provider models in the global registry using the core auth ID as client identifier.

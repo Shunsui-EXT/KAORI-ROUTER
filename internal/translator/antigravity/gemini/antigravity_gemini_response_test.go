@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
 	"github.com/tidwall/gjson"
 )
 

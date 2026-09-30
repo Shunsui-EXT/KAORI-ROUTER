@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	sdkconfig "github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	sdkconfig "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 func TestBuildConfigChangeDetails(t *testing.T) {

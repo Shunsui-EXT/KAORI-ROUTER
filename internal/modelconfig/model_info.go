@@ -3,8 +3,8 @@ package modelconfig
 import (
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
 )
 
 // ResolveModelInfo returns a private capability snapshot for a configured model.

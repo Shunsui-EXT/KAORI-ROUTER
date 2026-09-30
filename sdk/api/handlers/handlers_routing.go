@@ -8,12 +8,12 @@ import (
 
 	"github.com/tidwall/sjson"
 
-	. "github.com/router-for-me/CLIProxyAPI/v8/internal/constant"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	coreexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	. "github.com/Shunsui-EXT/KAORI-ROUTER/internal/constant"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	coreexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 	"golang.org/x/net/context"
 )
 

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
 )
 
 // PendingStreamError returns an immediately available non-nil stream error.

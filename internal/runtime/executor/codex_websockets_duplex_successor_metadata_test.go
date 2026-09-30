@@ -9,10 +9,10 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	auth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	core "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	translator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	auth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	core "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	translator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 	"github.com/tidwall/gjson"
 )
 

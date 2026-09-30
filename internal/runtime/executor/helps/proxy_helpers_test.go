@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	coreexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	sdkconfig "github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	coreexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	sdkconfig "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 func TestNewProxyAwareHTTPClientRequestProxyOverridesAuthAndGlobal(t *testing.T) {

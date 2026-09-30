@@ -9,9 +9,9 @@ import (
 	"reflect"
 	"strings"
 
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginabi"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginabi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 	log "github.com/sirupsen/logrus"
 )
 

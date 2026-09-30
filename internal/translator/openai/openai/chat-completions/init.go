@@ -1,9 +1,9 @@
 package chat_completions
 
 import (
-	. "github.com/router-for-me/CLIProxyAPI/v8/internal/constant"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/translator/translator"
+	. "github.com/Shunsui-EXT/KAORI-ROUTER/internal/constant"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/translator"
 )
 
 func init() {

@@ -5,11 +5,11 @@ import (
 	"maps"
 	"strings"
 
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/modelconfig"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/modelconfig"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
 )
 
 const (

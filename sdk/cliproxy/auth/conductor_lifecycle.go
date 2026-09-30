@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 )
 
 // SetRetryConfig updates additional credential retry rounds, the per-round credential limit, and the cooldown wait interval.

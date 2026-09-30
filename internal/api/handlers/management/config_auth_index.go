@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher/synthesizer"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/synthesizer"
 )
 
 type geminiKeyWithAuthIndex struct {

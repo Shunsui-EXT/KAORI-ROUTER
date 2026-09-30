@@ -11,12 +11,12 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/wsrelay"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/usage"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/wsrelay"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/usage"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 	"github.com/tidwall/gjson"
 )
 

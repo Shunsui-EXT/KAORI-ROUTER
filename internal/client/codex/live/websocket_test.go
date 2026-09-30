@@ -13,9 +13,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executionregistry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executionregistry"
 )
 
 func TestHandleDirectWebsocketRejectsClientSecretModelMismatch(t *testing.T) {

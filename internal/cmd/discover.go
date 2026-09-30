@@ -13,7 +13,7 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/discovery"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/discovery"
 	"gopkg.in/yaml.v3"
 )
 

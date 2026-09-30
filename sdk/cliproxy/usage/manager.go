@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	internallogging "github.com/router-for-me/CLIProxyAPI/v8/internal/logging"
+	internallogging "github.com/Shunsui-EXT/KAORI-ROUTER/internal/logging"
 	log "github.com/sirupsen/logrus"
 )
 

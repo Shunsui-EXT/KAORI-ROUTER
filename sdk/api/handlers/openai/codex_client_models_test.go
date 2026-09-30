@@ -3,9 +3,9 @@ package openai
 import (
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/api/handlers"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/api/handlers"
 )
 
 func TestCodexClientModelsResponseMultiAgentV2FollowsConfig(t *testing.T) {

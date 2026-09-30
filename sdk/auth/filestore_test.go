@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 )
 
 func TestExtractAccessToken(t *testing.T) {

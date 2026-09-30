@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 )
 
 func TestHostPickAuthUsesHighestPrioritySchedulerOnly(t *testing.T) {

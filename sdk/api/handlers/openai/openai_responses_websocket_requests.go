@@ -8,8 +8,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
 	log "github.com/sirupsen/logrus"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"

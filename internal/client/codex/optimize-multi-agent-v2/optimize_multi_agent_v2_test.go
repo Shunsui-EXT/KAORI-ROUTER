@@ -8,10 +8,10 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/translator"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 	"github.com/tidwall/gjson"
 )
 

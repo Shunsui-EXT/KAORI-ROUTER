@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/homeplugins"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/homeplugins"
 )
 
 type recordingPluginStatusClient struct {

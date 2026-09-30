@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 )
 
 type mockModelListInterceptorHost struct {

@@ -1,9 +1,9 @@
 package helps
 
 import (
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
 )
 
 // APIKeyModelIsCompat reports whether the selected API-key model enables

@@ -16,9 +16,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/auth/devin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/devin"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 )
 
 type fakeDevinOAuthService struct {

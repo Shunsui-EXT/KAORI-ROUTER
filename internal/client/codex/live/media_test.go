@@ -11,7 +11,7 @@ import (
 	"github.com/pion/interceptor"
 	"github.com/pion/rtp"
 	"github.com/pion/webrtc/v4"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 	log "github.com/sirupsen/logrus"
 	logtest "github.com/sirupsen/logrus/hooks/test"
 )

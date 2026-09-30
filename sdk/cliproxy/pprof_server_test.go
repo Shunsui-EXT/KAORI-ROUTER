@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 )
 
 func TestPprofServerStopOwnedServerKeepsReplacement(t *testing.T) {

@@ -7,14 +7,14 @@ import (
 	"context"
 	"fmt"
 
-	configaccess "github.com/router-for-me/CLIProxyAPI/v8/internal/access/config_access"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/api"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/pluginhost"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher"
-	sdkaccess "github.com/router-for-me/CLIProxyAPI/v8/sdk/access"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	configaccess "github.com/Shunsui-EXT/KAORI-ROUTER/internal/access/config_access"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/api"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginhost"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher"
+	sdkaccess "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/access"
+	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 // Builder constructs a Service instance with customizable providers.

@@ -12,11 +12,11 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/auth/claude"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/auth/codex"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/claude"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/codex"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 )
 
 func TestSaveTokenRecord_PostPersistHookReceivesCanonicalClaudeOAuth(t *testing.T) {

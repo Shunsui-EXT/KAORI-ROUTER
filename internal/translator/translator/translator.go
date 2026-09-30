@@ -7,8 +7,8 @@ package translator
 import (
 	"context"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 )
 
 // registry holds the default translator registry instance.

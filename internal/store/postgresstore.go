@@ -14,8 +14,8 @@ import (
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/misc"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/misc"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	log "github.com/sirupsen/logrus"
 )
 

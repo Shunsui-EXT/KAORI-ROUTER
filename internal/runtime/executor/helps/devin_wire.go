@@ -19,9 +19,9 @@ import (
 	"unicode/utf8"
 
 	"github.com/google/uuid"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/cache"
-	translatorcommon "github.com/router-for-me/CLIProxyAPI/v8/internal/translator/common"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/cache"
+	translatorcommon "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/common"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
 	"google.golang.org/protobuf/encoding/protowire"
 )
 

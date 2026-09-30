@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"strings"
 
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
 )
 
 const oauthModelAliasesAttributeKey = "model_aliases"

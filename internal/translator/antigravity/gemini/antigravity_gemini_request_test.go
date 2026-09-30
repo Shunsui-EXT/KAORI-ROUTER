@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/signature"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/signature"
 	"github.com/tidwall/gjson"
 	"google.golang.org/protobuf/encoding/protowire"
 )

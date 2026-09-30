@@ -12,11 +12,11 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	xaiauth "github.com/router-for-me/CLIProxyAPI/v8/internal/auth/xai"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/proxyutil"
+	xaiauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/xai"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/proxyutil"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/misc"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/misc"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -5,12 +5,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/constant"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/pluginhost"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/constant"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginhost"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 type openAICompatibilityRegistrationCache struct {

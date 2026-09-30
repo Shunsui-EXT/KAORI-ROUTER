@@ -3,8 +3,8 @@ package cliproxy
 import (
 	"testing"
 
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 func TestHasNativeOpenAICompatExecutorConfig(t *testing.T) {

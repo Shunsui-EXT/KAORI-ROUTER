@@ -5,8 +5,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 )
 
 func TestCompatibilityRequestPair(t *testing.T) {

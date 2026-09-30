@@ -8,9 +8,9 @@ import (
 	"context"
 
 	"github.com/gin-gonic/gin"
-	internalmanagement "github.com/router-for-me/CLIProxyAPI/v8/internal/api/handlers/management"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	internalmanagement "github.com/Shunsui-EXT/KAORI-ROUTER/internal/api/handlers/management"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 // Handler re-exports the management handler used by the internal HTTP API.

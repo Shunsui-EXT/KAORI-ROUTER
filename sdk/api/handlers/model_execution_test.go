@@ -10,14 +10,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/constant"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	coreexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	sdkconfig "github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/constant"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	coreexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	sdkconfig "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 )
 
 type modelExecutionCaptureExecutor struct {

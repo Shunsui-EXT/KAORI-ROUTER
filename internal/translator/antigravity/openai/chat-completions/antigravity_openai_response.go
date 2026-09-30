@@ -13,10 +13,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
 	log "github.com/sirupsen/logrus"
 
-	. "github.com/router-for-me/CLIProxyAPI/v8/internal/translator/gemini/openai/chat-completions"
+	. "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/gemini/openai/chat-completions"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

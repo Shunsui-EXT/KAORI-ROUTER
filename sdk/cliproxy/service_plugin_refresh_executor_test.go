@@ -3,10 +3,10 @@ package cliproxy
 import (
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/pluginhost"
-	runtimeexecutor "github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginhost"
+	runtimeexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 func TestRegisterExecutorForAuth_PluginAuthProviderWrapsOpenAICompatRefresh(t *testing.T) {

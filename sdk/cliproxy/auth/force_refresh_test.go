@@ -7,8 +7,8 @@ import (
 	"sync/atomic"
 	"testing"
 
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
 )
 
 func TestManager_ForceRefreshAuth_ClearsErrorAndRefreshes(t *testing.T) {

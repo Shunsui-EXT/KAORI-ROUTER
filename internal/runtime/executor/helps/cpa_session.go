@@ -3,10 +3,10 @@ package helps
 import (
 	"context"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/logging"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/logging"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
 )
 
 // EnsureSessionContext ensures that ctx carries the internal session identity

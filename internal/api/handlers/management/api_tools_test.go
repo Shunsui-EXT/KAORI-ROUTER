@@ -17,12 +17,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	xaiauth "github.com/router-for-me/CLIProxyAPI/v8/internal/auth/xai"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	sdkconfig "github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	xaiauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/xai"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
+	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	sdkconfig "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 func TestAPICallUsesRequestProxyURL(t *testing.T) {

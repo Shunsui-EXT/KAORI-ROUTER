@@ -24,14 +24,14 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/api"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	clipexec "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/logging"
-	sdktr "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/api"
+	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	clipexec "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/logging"
+	sdktr "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 )
 
 const (

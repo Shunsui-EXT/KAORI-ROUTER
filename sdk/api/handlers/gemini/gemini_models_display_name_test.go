@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/api/handlers"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/api/handlers"
 )
 
 func TestGeminiModelsResponseUsesConfiguredDisplayName(t *testing.T) {

@@ -3,7 +3,7 @@ package diff
 import (
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 )
 
 func TestSummarizeExcludedModels_NormalizesAndDedupes(t *testing.T) {

@@ -12,13 +12,13 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	runtimeexecutor "github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/translator"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	runtimeexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 )
 
 func TestCodexTerminalQuotaCoolsAccountAcrossModels(t *testing.T) {

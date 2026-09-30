@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executionregistry"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executionregistry"
 )
 
 func concurrencyReleaseFrameFromFixture(t *testing.T) ConcurrencyReleaseFrame {

@@ -5,9 +5,9 @@ import (
 	"encoding/base64"
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/cache"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/signature"
-	translatorcommon "github.com/router-for-me/CLIProxyAPI/v8/internal/translator/common"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/cache"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/signature"
+	translatorcommon "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/common"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

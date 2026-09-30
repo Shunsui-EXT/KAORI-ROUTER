@@ -1,4 +1,4 @@
-module github.com/router-for-me/CLIProxyAPI/v8
+module github.com/Shunsui-EXT/KAORI-ROUTER
 
 go 1.26.0
 
@@ -55,7 +55,7 @@ require (
 	github.com/pion/srtp/v3 v3.0.12 // indirect
 	github.com/pion/transport/v4 v4.0.2 // indirect
 	github.com/pion/turn/v5 v5.0.12 // indirect
-	github.com/rogpeppe/go-internal v1.15.0 // indirect
+	github.com/rogpeppe/go-internal v1.16.0 // indirect
 	github.com/wlynxg/anet v0.0.5 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/time v0.14.0 // indirect

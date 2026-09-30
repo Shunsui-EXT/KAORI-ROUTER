@@ -14,12 +14,12 @@ import (
 	"time"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/redisqueue"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher/diff"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher/synthesizer"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/redisqueue"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/diff"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/synthesizer"
+	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	"gopkg.in/yaml.v3"
 )
 

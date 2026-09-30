@@ -20,7 +20,7 @@ import (
 	"time"
 
 	tls "github.com/refraction-networking/utls"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 )
 
 type utlsClientRoundTripFunc func(*http.Request) (*http.Response, error)

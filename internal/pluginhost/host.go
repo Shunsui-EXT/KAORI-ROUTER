@@ -11,12 +11,12 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/api/handlers"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginabi"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/api/handlers"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginabi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 	log "github.com/sirupsen/logrus"
 )
 

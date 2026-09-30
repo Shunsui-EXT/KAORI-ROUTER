@@ -3,8 +3,8 @@ package pluginhost
 import (
 	"context"
 
-	internalpluginhost "github.com/router-for-me/CLIProxyAPI/v8/internal/pluginhost"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	internalpluginhost "github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginhost"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 )
 
 // RegisteredQuotaProviderInfo describes quota capabilities exposed to embedders.

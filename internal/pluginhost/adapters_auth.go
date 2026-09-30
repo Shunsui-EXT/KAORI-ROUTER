@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	sdkaccess "github.com/router-for-me/CLIProxyAPI/v8/sdk/access"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	sdkaccess "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/access"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 )
 
 func (h *Host) RegisterFrontendAuthProviders() {

@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/pluginstore"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginstore"
 	log "github.com/sirupsen/logrus"
 )
 

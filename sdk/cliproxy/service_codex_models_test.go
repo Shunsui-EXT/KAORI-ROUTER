@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"testing"
 
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	internalregistry "github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	internalregistry "github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 func TestRegisterModelsForAuthCodexConfigurationUpdate(t *testing.T) {

@@ -13,7 +13,7 @@ import (
 	"github.com/tidwall/sjson"
 	"github.com/tiktoken-go/tokenizer"
 
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 )
 
 var (

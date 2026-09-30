@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 )
 
 func TestKimiDomainResolution(t *testing.T) {

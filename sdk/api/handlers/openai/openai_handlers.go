@@ -14,12 +14,12 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
-	codexmodels "github.com/router-for-me/CLIProxyAPI/v8/internal/client/codex/models"
-	. "github.com/router-for-me/CLIProxyAPI/v8/internal/constant"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	responsesconverter "github.com/router-for-me/CLIProxyAPI/v8/internal/translator/openai/openai/responses"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/api/handlers"
+	codexmodels "github.com/Shunsui-EXT/KAORI-ROUTER/internal/client/codex/models"
+	. "github.com/Shunsui-EXT/KAORI-ROUTER/internal/constant"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	responsesconverter "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/openai/openai/responses"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/api/handlers"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

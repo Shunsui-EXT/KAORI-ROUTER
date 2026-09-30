@@ -14,10 +14,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginabi"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginabi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 	log "github.com/sirupsen/logrus"
 	"github.com/tidwall/gjson"
 )

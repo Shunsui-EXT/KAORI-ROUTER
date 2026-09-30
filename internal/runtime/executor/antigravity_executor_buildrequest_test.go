@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 )
 
 func TestResolveAntigravityRequestBaseURL(t *testing.T) {

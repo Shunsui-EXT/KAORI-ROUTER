@@ -10,10 +10,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/api"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/pluginhost"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/api"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginhost"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy"
 	log "github.com/sirupsen/logrus"
 )
 

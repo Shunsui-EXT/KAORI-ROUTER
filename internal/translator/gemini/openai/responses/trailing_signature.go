@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/cache"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/cache"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

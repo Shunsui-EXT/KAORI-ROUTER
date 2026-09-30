@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	sigcompat "github.com/router-for-me/CLIProxyAPI/v8/internal/signature"
+	sigcompat "github.com/Shunsui-EXT/KAORI-ROUTER/internal/signature"
 	"github.com/tidwall/gjson"
 	"google.golang.org/protobuf/encoding/protowire"
 )

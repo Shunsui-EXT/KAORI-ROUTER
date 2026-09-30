@@ -12,14 +12,14 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/clienterror"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/logging"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/codex"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/usage"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/clienterror"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/logging"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/codex"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/usage"
 )
 
 func TestParseOpenAIUsageChatCompletions(t *testing.T) {

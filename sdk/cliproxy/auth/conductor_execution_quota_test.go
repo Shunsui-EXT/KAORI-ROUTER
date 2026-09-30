@@ -6,11 +6,11 @@ import (
 	"strings"
 	"testing"
 
-	internallogging "github.com/router-for-me/CLIProxyAPI/v8/internal/logging"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	internalutil "github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	coresession "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/session"
+	internallogging "github.com/Shunsui-EXT/KAORI-ROUTER/internal/logging"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	internalutil "github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	coresession "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/session"
 )
 
 type quotaAttemptIsolationSelector struct{}

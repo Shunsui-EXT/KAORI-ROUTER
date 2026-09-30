@@ -6,8 +6,8 @@ package util
 import (
 	"net/http"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/proxyutil"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/proxyutil"
 	log "github.com/sirupsen/logrus"
 )
 

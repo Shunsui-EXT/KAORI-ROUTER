@@ -13,8 +13,8 @@ import (
 	"strings"
 	"testing"
 
-	devinauth "github.com/router-for-me/CLIProxyAPI/v8/internal/auth/devin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	devinauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/devin"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 )
 
 func TestDevinAuthenticatorProviderAndRefreshLead(t *testing.T) {

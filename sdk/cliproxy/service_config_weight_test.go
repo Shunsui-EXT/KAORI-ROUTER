@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
 )
 
 func TestWeightedRoundRobinRoutingSelector(t *testing.T) {

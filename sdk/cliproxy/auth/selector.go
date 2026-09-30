@@ -17,11 +17,11 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/tidwall/gjson"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/credentialweight"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/logging"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	cliproxysession "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/session"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/credentialweight"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/logging"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	cliproxysession "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/session"
 )
 
 // RoundRobinSelector provides a simple provider scoped round-robin selection strategy.

@@ -10,13 +10,13 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	runtimeexecutor "github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/translator"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/api/handlers"
-	openaihandlers "github.com/router-for-me/CLIProxyAPI/v8/sdk/api/handlers/openai"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	runtimeexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/api/handlers"
+	openaihandlers "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/api/handlers/openai"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 )
 
 // TestCodexIncompleteStreamIsNotTypedAsInvalidRequest drives the real /v1/responses

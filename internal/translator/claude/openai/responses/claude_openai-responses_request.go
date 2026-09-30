@@ -7,11 +7,11 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	sigcompat "github.com/router-for-me/CLIProxyAPI/v8/internal/signature"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/translator/common"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	sigcompat "github.com/Shunsui-EXT/KAORI-ROUTER/internal/signature"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/common"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

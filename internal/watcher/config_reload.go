@@ -9,9 +9,9 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher/diff"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/diff"
 	"gopkg.in/yaml.v3"
 
 	log "github.com/sirupsen/logrus"

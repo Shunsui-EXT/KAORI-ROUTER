@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
 )
 
 // GetStaticModelDefinitions returns static model metadata for a given channel.

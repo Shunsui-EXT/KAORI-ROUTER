@@ -22,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 )
 
 const homeCertificateRequestTimeout = 30 * time.Second

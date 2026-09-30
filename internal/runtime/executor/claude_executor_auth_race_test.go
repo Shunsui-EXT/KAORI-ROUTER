@@ -5,9 +5,9 @@ import (
 	"sync"
 	"testing"
 
-	claudeauth "github.com/router-for-me/CLIProxyAPI/v8/internal/auth/claude"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	claudeauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/claude"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 )
 
 // A single Auth is shared by every in-flight request that selects the credential,

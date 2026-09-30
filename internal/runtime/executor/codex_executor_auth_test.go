@@ -14,10 +14,10 @@ import (
 	"testing"
 	"time"
 
-	codexauth "github.com/router-for-me/CLIProxyAPI/v8/internal/auth/codex"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	fileauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	codexauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/codex"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	fileauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 )
 
 func makeTestCodexRefreshJWT(planType, accountID string) string {

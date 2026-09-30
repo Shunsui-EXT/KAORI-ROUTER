@@ -9,11 +9,11 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/auth/codex"
-	kimiauth "github.com/router-for-me/CLIProxyAPI/v8/internal/auth/kimi"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/codex"
+	kimiauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/kimi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 	log "github.com/sirupsen/logrus"
 )
 

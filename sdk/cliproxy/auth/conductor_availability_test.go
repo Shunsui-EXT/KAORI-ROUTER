@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
 )
 
 func TestUpdateAggregatedAvailability_UnavailableWithoutNextRetryDoesNotBlockAuth(t *testing.T) {

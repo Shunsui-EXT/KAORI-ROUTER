@@ -9,10 +9,10 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	claudeauth "github.com/router-for-me/CLIProxyAPI/v8/internal/auth/claude"
-	homekv "github.com/router-for-me/CLIProxyAPI/v8/internal/home"
-	cliproxyauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
+	claudeauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/claude"
+	homekv "github.com/Shunsui-EXT/KAORI-ROUTER/internal/home"
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
 	"github.com/tidwall/sjson"
 )
 

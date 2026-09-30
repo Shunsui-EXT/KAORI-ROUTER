@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor/helps"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/signature"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor/helps"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/signature"
 	log "github.com/sirupsen/logrus"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"

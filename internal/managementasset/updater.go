@@ -17,10 +17,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/httpfetch"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	sdkconfig "github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/httpfetch"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	sdkconfig "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/sync/singleflight"
 )

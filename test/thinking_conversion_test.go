@@ -5,21 +5,21 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/translator"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator"
 
 	// Import provider packages to trigger init() registration of ProviderAppliers
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/antigravity"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/claude"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/codex"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/gemini"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/interactions"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/kimi"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/openai"
-	_ "github.com/router-for-me/CLIProxyAPI/v8/internal/thinking/provider/xai"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/antigravity"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/claude"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/codex"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/gemini"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/interactions"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/kimi"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/openai"
+	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking/provider/xai"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
-	sdktranslator "github.com/router-for-me/CLIProxyAPI/v8/sdk/translator"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	sdktranslator "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/translator"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

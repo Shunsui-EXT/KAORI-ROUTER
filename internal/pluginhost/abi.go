@@ -3,7 +3,7 @@ package pluginhost
 import (
 	"context"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginabi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginabi"
 )
 
 const pluginHostABIVersion = pluginabi.ABIVersion

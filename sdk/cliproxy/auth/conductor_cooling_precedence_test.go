@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 )
 
 func TestManagerMarkResultUsesCredentialCoolingPrecedence(t *testing.T) {

@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/pluginhost"
-	runtimeexecutor "github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	cliproxyexecutor "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/executor"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginhost"
+	runtimeexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
 
 type serviceTestPluginExecutor struct{}

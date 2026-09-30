@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 	log "github.com/sirupsen/logrus"
 )
 

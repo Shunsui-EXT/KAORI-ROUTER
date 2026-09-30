@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	translatorcommon "github.com/router-for-me/CLIProxyAPI/v8/internal/translator/common"
+	translatorcommon "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/common"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

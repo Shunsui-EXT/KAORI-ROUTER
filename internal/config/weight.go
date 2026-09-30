@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/credentialweight"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/credentialweight"
 	"gopkg.in/yaml.v3"
 )
 

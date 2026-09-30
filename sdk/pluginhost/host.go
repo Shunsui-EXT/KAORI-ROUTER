@@ -3,11 +3,11 @@ package pluginhost
 import (
 	"context"
 
-	internalconfig "github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	internalpluginhost "github.com/router-for-me/CLIProxyAPI/v8/internal/pluginhost"
-	internalregistry "github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginapi"
+	internalconfig "github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	internalpluginhost "github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginhost"
+	internalregistry "github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
 	"gopkg.in/yaml.v3"
 )
 

@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	internalpluginstore "github.com/router-for-me/CLIProxyAPI/v8/internal/pluginstore"
-	sdkpluginstore "github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginstore"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	internalpluginstore "github.com/Shunsui-EXT/KAORI-ROUTER/internal/pluginstore"
+	sdkpluginstore "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginstore"
 )
 
 type networkScopeDoer func(*http.Request) (*http.Response, error)

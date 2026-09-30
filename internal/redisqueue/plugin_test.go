@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	internallogging "github.com/router-for-me/CLIProxyAPI/v8/internal/logging"
-	coresession "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/session"
-	coreusage "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/usage"
+	internallogging "github.com/Shunsui-EXT/KAORI-ROUTER/internal/logging"
+	coresession "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/session"
+	coreusage "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/usage"
 )
 
 func TestUsageQueuePluginPayloadIncludesStableFieldsAndSuccess(t *testing.T) {

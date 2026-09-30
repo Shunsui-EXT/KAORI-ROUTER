@@ -15,10 +15,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/cache"
-	sigcompat "github.com/router-for-me/CLIProxyAPI/v8/internal/signature"
-	translatorcommon "github.com/router-for-me/CLIProxyAPI/v8/internal/translator/common"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/cache"
+	sigcompat "github.com/Shunsui-EXT/KAORI-ROUTER/internal/signature"
+	translatorcommon "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator/common"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/tidwall/gjson"

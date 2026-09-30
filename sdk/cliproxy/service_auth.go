@@ -5,13 +5,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/runtime/executor"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/wsrelay"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
-	"github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/wsrelay"
+	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 	log "github.com/sirupsen/logrus"
 )
 

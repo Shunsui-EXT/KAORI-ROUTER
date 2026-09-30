@@ -12,10 +12,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/util"
-	sdkconfig "github.com/router-for-me/CLIProxyAPI/v8/sdk/config"
-	sdkpluginstore "github.com/router-for-me/CLIProxyAPI/v8/sdk/pluginstore"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
+	sdkconfig "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
+	sdkpluginstore "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginstore"
 	"gopkg.in/yaml.v3"
 )
 

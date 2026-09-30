@@ -3,8 +3,8 @@ package helps
 import (
 	"strings"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/registry"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/thinking"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
 )
 
 // knownDevinSuffixes lists recognized model uid suffixes.

@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/auth/codex"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/codex"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
 	log "github.com/sirupsen/logrus"
 )
 

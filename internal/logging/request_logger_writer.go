@@ -13,7 +13,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/interfaces"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/interfaces"
 	log "github.com/sirupsen/logrus"
 )
 

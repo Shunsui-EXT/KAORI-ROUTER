@@ -18,7 +18,7 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/clienterror"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/clienterror"
 	"golang.org/x/sys/windows"
 )
 

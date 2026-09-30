@@ -3,7 +3,7 @@ package diff
 import (
 	"testing"
 
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/config"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 )
 
 func TestDiffOAuthModelAliasChanges_IncludesDisplayName(t *testing.T) {

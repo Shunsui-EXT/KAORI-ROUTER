@@ -15,12 +15,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	claudeauth "github.com/router-for-me/CLIProxyAPI/v8/internal/auth/claude"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/auth/codex"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/credentialweight"
-	"github.com/router-for-me/CLIProxyAPI/v8/internal/watcher/synthesizer"
-	sdkAuth "github.com/router-for-me/CLIProxyAPI/v8/sdk/auth"
-	coreauth "github.com/router-for-me/CLIProxyAPI/v8/sdk/cliproxy/auth"
+	claudeauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/claude"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/codex"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/credentialweight"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/synthesizer"
+	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
+	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	log "github.com/sirupsen/logrus"
 )
 
