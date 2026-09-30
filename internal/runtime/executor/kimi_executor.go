@@ -1155,7 +1155,7 @@ func stripKimiPrefix(model string) string {
 }
 
 // normalizeKimiUpstreamModel returns the canonical upstream model ID for Kimi.
-// It strips the CLIProxyAPI "kimi-" prefix and any Claude Code "[1m]" context
+// It strips the KaoriRouter "kimi-" prefix and any Claude Code "[1m]" context
 // suffix while preserving a trailing thinking suffix (e.g. "(1024)"), so that
 // the upstream API receives IDs such as "k3(1024)" instead of "kimi-k3[1m](1024)".
 // K2.8 and K2.7 Code aliases are remapped to the official Kimi Code model IDs before

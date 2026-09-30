@@ -1,4 +1,4 @@
-// Package tui provides a terminal-based management interface for CLIProxyAPI.
+// Package tui provides a terminal-based management interface for KaoriRouter.
 package tui
 
 import "github.com/charmbracelet/lipgloss"

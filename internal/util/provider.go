@@ -1,4 +1,4 @@
-// Package util provides utility functions used across the CLIProxyAPI application.
+// Package util provides utility functions used across the KaoriRouter application.
 // These functions handle common tasks such as determining AI service providers
 // from model names and managing HTTP proxies.
 package util
