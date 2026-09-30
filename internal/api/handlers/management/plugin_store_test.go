@@ -736,7 +736,7 @@ func TestInstallPluginFromStoreRejectsUnresolvedPluginsDir(t *testing.T) {
 	h := &Handler{
 		cfg: &config.Config{
 			Plugins: config.PluginsConfig{
-				Dir:     "~/.cli-proxy-api/plugins",
+				Dir:     "~/.kaori-router/plugins",
 				Configs: map[string]config.PluginInstanceConfig{},
 			},
 		},
@@ -778,13 +778,13 @@ func TestInstallPluginFromStoreWritesFileAndEnablesConfig(t *testing.T) {
 	cfg, errParse := config.ParseConfigBytes([]byte(`
 plugins:
   enabled: false
-  dir: "~/.cli-proxy-api/plugins"
+  dir: "~/.kaori-router/plugins"
 `))
 	if errParse != nil {
 		t.Fatalf("ParseConfigBytes() error = %v", errParse)
 	}
 	cfg.Plugins.Configs["sample-provider"] = pluginConfigFromYAML(t, "enabled: false\nmode: fast\n")
-	pluginsDir := filepath.Join(homeDir, ".cli-proxy-api", "plugins")
+	pluginsDir := filepath.Join(homeDir, ".kaori-router", "plugins")
 	archiveData := makeManagementPluginStoreZip(t, "sample-provider"+managementPluginExtension(runtime.GOOS), "library-data")
 	archiveName := "sample-provider_0.1.0_" + runtime.GOOS + "_" + runtime.GOARCH + ".zip"
 	checksum := sha256.Sum256(archiveData)

@@ -696,7 +696,7 @@ requests:
 # OAuth/file-backed credentials. Token material stays in the credential store.
 oauth:
   # Authentication directory (supports ~ for home directory)
-  auth-dir: "~/.cli-proxy-api"
+  auth-dir: "~/.kaori-router"
 
   # Core auth auto-refresh and manual refresh-all worker pool size (OAuth/file-based auth token refresh).
   # When > 0, overrides the default worker count (16).
@@ -1166,7 +1166,7 @@ plugins:
 #   request-retry: 3                 # now routing.retry.request-retry
 #   debug: false                     # now observability.logs.debug
 #   proxy-url: ""                    # now requests.proxy-url
-#   auth-dir: "~/.cli-proxy-api"     # now oauth.auth-dir
+#   auth-dir: "~/.kaori-router"     # now oauth.auth-dir
 #   codex:                           # now oauth.providers.codex
 #     disable-codex-cloaking: false
 #   codex-api-key:                   # now api-keys.codex groups with keys

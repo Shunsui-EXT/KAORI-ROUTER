@@ -77,7 +77,7 @@ func TestHostApplyConfig_DisabledGlobalDoesNotResolvePluginsDir(t *testing.T) {
 	disabledCfg, errParseConfig := config.ParseConfigBytes([]byte(`
 plugins:
   enabled: false
-  dir: "~/.cli-proxy-api/plugins"
+  dir: "~/.kaori-router/plugins"
 `))
 	if errParseConfig != nil {
 		t.Fatalf("ParseConfigBytes() error = %v", errParseConfig)

@@ -15,7 +15,7 @@ services:
     ports:
       - "8317:8317"
     volumes:
-      - ${CLI_PROXY_HOME_PATH:-./home}:/root/.cli-proxy-api
+      - ${CLI_PROXY_HOME_PATH:-./home}:/root/.kaori-router
       - ${CLI_PROXY_LOG_PATH:-./logs}:/KaoriRouter/logs
       - ${CLI_PROXY_PLUGIN_PATH:-./plugins}:/KaoriRouter/plugins
     command: >

@@ -567,7 +567,7 @@ func TestDeleteWithReportRejectsUnresolvedPluginsDir(t *testing.T) {
 	t.Setenv("USERPROFILE", "")
 	t.Chdir(workspace)
 
-	literalPluginsDir := filepath.Join(workspace, "~", ".cli-proxy-api", "plugins")
+	literalPluginsDir := filepath.Join(workspace, "~", ".kaori-router", "plugins")
 	targetDir := filepath.Join(literalPluginsDir, runtime.GOOS, runtime.GOARCH)
 	if errMkdir := os.MkdirAll(targetDir, 0o755); errMkdir != nil {
 		t.Fatalf("MkdirAll(%s) error = %v", targetDir, errMkdir)
@@ -579,7 +579,7 @@ func TestDeleteWithReportRejectsUnresolvedPluginsDir(t *testing.T) {
 	cfg := &config.Config{
 		Home: config.HomeConfig{Enabled: true},
 		Plugins: config.PluginsConfig{
-			Dir: "~/.cli-proxy-api/plugins",
+			Dir: "~/.kaori-router/plugins",
 		},
 	}
 
