@@ -1,3 +1,3 @@
-module github.com/router-for-me/CLIProxyAPI/v7/examples/plugin/cli/go
+module github.com/Shunsui-EXT/KAORI-ROUTER/examples/plugin/cli/go
 
 go 1.26

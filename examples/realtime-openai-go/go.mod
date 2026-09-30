@@ -1,4 +1,4 @@
-module github.com/router-for-me/CLIProxyAPI/v7/examples/realtime-openai-go
+module github.com/Shunsui-EXT/KAORI-ROUTER/examples/realtime-openai-go
 
 go 1.26.0
 
