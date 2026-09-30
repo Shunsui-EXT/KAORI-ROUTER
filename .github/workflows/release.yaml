@@ -304,9 +304,9 @@ jobs:
 
               CGO_ENABLED=1 GOOS=linux GOARCH="${GOARCH}" go build -buildvcs=false \
                 -ldflags="-s -w -X main.Version=${RELEASE_VERSION} -X main.Commit=${COMMIT} -X main.BuildDate=${BUILD_DATE}" \
-                -o "'"$archive_dir"'/cli-proxy-api" ./cmd/server/
+                -o "'"$archive_dir"'/KaoriRouter" ./cmd/server/
 
-              glibc_versions="$(readelf --version-info "'"$archive_dir"'/cli-proxy-api" | sed -n "s/.*Name: GLIBC_\([0-9.]*\).*/\1/p" | sort -Vu)"
+              glibc_versions="$(readelf --version-info "'"$archive_dir"'/KaoriRouter" | sed -n "s/.*Name: GLIBC_\([0-9.]*\).*/\1/p" | sort -Vu)"
               if [[ -n "${glibc_versions}" ]]; then
                 printf "GLIBC versions:\n%s\n" "${glibc_versions}"
                 max_glibc="$(printf "%s\n" "${glibc_versions}" | sort -V | tail -n 1)"
@@ -318,7 +318,7 @@ jobs:
             '
 
           cp LICENSE README.md config.example.yaml "$archive_dir/"
-          tar -C "$archive_dir" -czf "dist/$archive_name" cli-proxy-api LICENSE README.md config.example.yaml
+          tar -C "$archive_dir" -czf "dist/$archive_name" KaoriRouter LICENSE README.md config.example.yaml
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
@@ -428,16 +428,16 @@ jobs:
 
           CGO_ENABLED=0 GOOS=linux GOARCH="$GOARCH" go build -buildvcs=false \
             -ldflags="-s -w -X main.Version=${RELEASE_VERSION} -X main.Commit=${COMMIT} -X main.BuildDate=${BUILD_DATE}" \
-            -o "$archive_dir/cli-proxy-api" ./cmd/server/
+            -o "$archive_dir/KaoriRouter" ./cmd/server/
 
-          if readelf -l "$archive_dir/cli-proxy-api" | grep -q 'Requesting program interpreter'; then
-            readelf -l "$archive_dir/cli-proxy-api" >&2
+          if readelf -l "$archive_dir/KaoriRouter" | grep -q 'Requesting program interpreter'; then
+            readelf -l "$archive_dir/KaoriRouter" >&2
             echo "no-plugin linux binary must not require a dynamic interpreter" >&2
             exit 1
           fi
 
           cp LICENSE README.md config.example.yaml "$archive_dir/"
-          tar -C "$archive_dir" -czf "dist/$archive_name" cli-proxy-api LICENSE README.md config.example.yaml
+          tar -C "$archive_dir" -czf "dist/$archive_name" KaoriRouter LICENSE README.md config.example.yaml
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
@@ -616,7 +616,7 @@ jobs:
           CC="clang --target=${clang_target} --sysroot=${sysroot_dir}" \
           go build -buildvcs=false \
             -ldflags="-s -w -X main.Version=${RELEASE_VERSION} -X main.Commit=${COMMIT} -X main.BuildDate=${BUILD_DATE}" \
-            -o "dist/${TARGET}/bin/cli-proxy-api" ./cmd/server/
+            -o "dist/${TARGET}/bin/KaoriRouter" ./cmd/server/
       - name: Build FreeBSD no-plugin binary
         if: ${{ !matrix.cgo_enabled }}
         shell: bash
@@ -625,7 +625,7 @@ jobs:
           mkdir -p "dist/${TARGET}/bin"
           CGO_ENABLED=0 GOOS=freebsd GOARCH="$TARGET_GOARCH" go build -buildvcs=false \
             -ldflags="-s -w -X main.Version=${RELEASE_VERSION} -X main.Commit=${COMMIT} -X main.BuildDate=${BUILD_DATE}" \
-            -o "dist/${TARGET}/bin/cli-proxy-api" ./cmd/server/
+            -o "dist/${TARGET}/bin/KaoriRouter" ./cmd/server/
       - name: Package FreeBSD archive
         shell: bash
         run: |
@@ -636,9 +636,9 @@ jobs:
           mkdir -p "$archive_dir"
 
           echo "Packaging ${archive_name}"
-          cp "dist/${TARGET}/bin/cli-proxy-api" "$archive_dir/cli-proxy-api"
+          cp "dist/${TARGET}/bin/KaoriRouter" "$archive_dir/KaoriRouter"
           cp LICENSE README.md config.example.yaml "$archive_dir/"
-          tar -C "$archive_dir" -czf "dist/$archive_name" cli-proxy-api LICENSE README.md config.example.yaml
+          tar -C "$archive_dir" -czf "dist/$archive_name" KaoriRouter LICENSE README.md config.example.yaml
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
