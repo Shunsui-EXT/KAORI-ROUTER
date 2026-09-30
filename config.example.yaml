@@ -74,7 +74,7 @@ management:
   # When enabled, the panel is only downloaded on first access if missing, and never auto-updated afterward.
   # disable-auto-update-panel: false
 
-  # Base URL of remote management API when using TUI client mode (cliproxyapi --tui).
+  # Base URL of remote management API when using TUI client mode (KaoriRouter --tui).
   # Defaults to http://127.0.0.1:<port> if not set. Can also be set via --management-base-url.
   # base-url: "https://proxy.example.com"
 
