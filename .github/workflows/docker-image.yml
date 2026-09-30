@@ -6,7 +6,7 @@ on:
       - v*
 
 env:
-  APP_NAME: CLIProxyAPI
+  APP_NAME: KaoriRouter
   DOCKERHUB_REPO: eceasy/cli-proxy-api
 
 jobs:
