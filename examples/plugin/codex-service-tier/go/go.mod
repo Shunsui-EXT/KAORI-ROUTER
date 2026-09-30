@@ -3,7 +3,7 @@ module github.com/Shunsui-EXT/KAORI-ROUTER/examples/plugin/codex-service-tier/go
 go 1.26.0
 
 require (
-	github.com/Shunsui-EXT/KAORI-ROUTER v7.0.0
+	github.com/Shunsui-EXT/KAORI-ROUTER v0.0.0
 	github.com/tidwall/sjson v1.2.5
 	gopkg.in/yaml.v3 v3.0.1
 )
