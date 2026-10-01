@@ -480,6 +480,7 @@ func cloneModelInfos(models []*ModelInfo) []*ModelInfo {
 //   - xai
 //   - devin
 //   - meta
+//   - mistral
 func GetStaticModelDefinitionsByChannel(channel string) []*ModelInfo {
 	key := strings.ToLower(strings.TrimSpace(channel))
 	switch key {
@@ -505,6 +506,8 @@ func GetStaticModelDefinitionsByChannel(channel string) []*ModelInfo {
 		return GetDevinModels()
 	case "meta", "muse":
 		return GetMetaModels()
+	case "mistral":
+		return GetMistralModels()
 	default:
 		return nil
 	}
