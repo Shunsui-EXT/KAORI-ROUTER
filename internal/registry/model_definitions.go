@@ -530,6 +530,36 @@ func GetMetaModels() []*ModelInfo {
 	return cloneModelInfos(getModels().Meta)
 }
 
+// GetMistralModels returns the static fallback catalog for Mistral AI, used
+// when a mistral-api-key credential has no explicit models: list configured.
+// IDs and context lengths were verified against GET https://api.mistral.ai/v1/models
+// on 2026-10-01; Mistral has fully retired the "mistral-large" line in favor of
+// "mistral-medium" as its flagship model.
+func GetMistralModels() []*ModelInfo {
+	now := int64(1790860800) // 2026-10-01
+	type mistralModel struct {
+		id, displayName string
+		contextLength   int
+	}
+	defs := []mistralModel{
+		{"mistral-medium-latest", "Mistral Medium", 262144},
+		{"mistral-small-latest", "Mistral Small", 262144},
+		{"magistral-medium-latest", "Magistral Medium", 262144},
+		{"magistral-small-latest", "Magistral Small", 262144},
+		{"codestral-latest", "Codestral", 256000},
+		{"ministral-8b-latest", "Ministral 8B", 262144},
+		{"ministral-3b-latest", "Ministral 3B", 131072},
+	}
+	models := make([]*ModelInfo, 0, len(defs))
+	for _, d := range defs {
+		models = append(models, &ModelInfo{
+			ID: d.id, Object: "model", Created: now, OwnedBy: "mistralai", Type: "mistral",
+			DisplayName: d.displayName, Name: d.id, ContextLength: d.contextLength,
+		})
+	}
+	return models
+}
+
 // LookupStaticModelInfo searches all static model definitions for a model by ID.
 // Returns nil if no matching model is found.
 func LookupStaticModelInfo(modelID string) *ModelInfo {

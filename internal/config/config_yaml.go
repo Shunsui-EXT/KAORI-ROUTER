@@ -819,7 +819,7 @@ func shouldPruneNestedMappingKeys(path []string) bool {
 	switch parent {
 	case "claude-api-key":
 		return last == "cloak" || last == "headers"
-	case "codex-api-key", "gemini-api-key", "interactions-api-key", "xai-api-key", "meta-api-key", "vertex-api-key", "openai-compatibility":
+	case "codex-api-key", "gemini-api-key", "interactions-api-key", "xai-api-key", "meta-api-key", "mistral-api-key", "vertex-api-key", "openai-compatibility":
 		return last == "headers"
 	default:
 		return false

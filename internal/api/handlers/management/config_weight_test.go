@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gin-gonic/gin"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/gin-gonic/gin"
 )
 
 func TestPatchAPIKeyWeightForEveryFamily(t *testing.T) {
@@ -33,6 +33,9 @@ func TestPatchAPIKeyWeightForEveryFamily(t *testing.T) {
 		{name: "meta", setup: func(cfg *config.Config) {
 			cfg.MetaKey = []config.MetaKey{{APIKey: "key", BaseURL: "https://example.com"}}
 		}, patch: (*Handler).PatchMetaKey, get: func(cfg *config.Config) *int { return cfg.MetaKey[0].Weight }},
+		{name: "mistral", setup: func(cfg *config.Config) {
+			cfg.MistralKey = []config.MistralKey{{APIKey: "key", BaseURL: "https://example.com"}}
+		}, patch: (*Handler).PatchMistralKey, get: func(cfg *config.Config) *int { return cfg.MistralKey[0].Weight }},
 	}
 
 	for _, test := range tests {

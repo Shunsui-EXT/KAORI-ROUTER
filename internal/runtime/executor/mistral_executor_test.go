@@ -4,7 +4,34 @@ import (
 	"testing"
 
 	"github.com/tidwall/gjson"
+
+	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 )
+
+func TestMistralBaseURL_StripsTrailingV1(t *testing.T) {
+	auth := &cliproxyauth.Auth{Attributes: map[string]string{"base_url": "https://api.mistral.ai/v1"}}
+
+	if got := mistralBaseURL(auth); got != "https://api.mistral.ai" {
+		t.Errorf("expected trailing /v1 to be stripped, got %q", got)
+	}
+}
+
+func TestMistralBaseURL_StripsTrailingSlash(t *testing.T) {
+	auth := &cliproxyauth.Auth{Attributes: map[string]string{"base_url": "https://api.mistral.ai/"}}
+
+	if got := mistralBaseURL(auth); got != "https://api.mistral.ai" {
+		t.Errorf("expected trailing slash to be stripped, got %q", got)
+	}
+}
+
+func TestMistralBaseURL_FallsBackToDefaultWhenUnset(t *testing.T) {
+	if got := mistralBaseURL(&cliproxyauth.Auth{}); got != mistralDefaultBaseURL {
+		t.Errorf("expected default base URL for an auth with no base_url attribute, got %q", got)
+	}
+	if got := mistralBaseURL(nil); got != mistralDefaultBaseURL {
+		t.Errorf("expected default base URL for a nil auth, got %q", got)
+	}
+}
 
 func TestStripMistralUnsupportedFields_RemovesTopLevelFields(t *testing.T) {
 	input := []byte(`{"model":"mistral-large-latest","reasoning":{"effort":"high"},"reasoningSummary":"x","include":["x"],"verbosity":"low","interleaved":true,"thinking":{"type":"enabled"},"stream_options":{"include_usage":true},"messages":[]}`)
@@ -111,5 +138,27 @@ func TestNormalizeMistralReasoningEffort_IgnoresNonMistralModel(t *testing.T) {
 
 	if got := gjson.GetBytes(out, "reasoning_effort").String(); got != "low" {
 		t.Errorf("expected reasoning_effort to be left as %q for a non-Mistral model, got %q", "low", got)
+	}
+}
+
+func TestNormalizeMistralReasoningEffort_CoversMagistralFamily(t *testing.T) {
+	for _, model := range []string{"magistral-medium-latest", "magistral-small-latest"} {
+		input := []byte(`{"reasoning_effort":"low"}`)
+
+		out := normalizeMistralReasoningEffort(model, input)
+
+		if got := gjson.GetBytes(out, "reasoning_effort").String(); got != "high" {
+			t.Errorf("model %q: expected reasoning_effort to be forced to %q, got %q", model, "high", got)
+		}
+	}
+}
+
+func TestNormalizeMistralReasoningEffort_CoversMinistralFamily(t *testing.T) {
+	input := []byte(`{"reasoning_effort":"low"}`)
+
+	out := normalizeMistralReasoningEffort("ministral-8b-latest", input)
+
+	if got := gjson.GetBytes(out, "reasoning_effort").String(); got != "high" {
+		t.Errorf("expected reasoning_effort to be forced to %q, got %q", "high", got)
 	}
 }

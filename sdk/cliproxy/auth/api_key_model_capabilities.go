@@ -405,6 +405,10 @@ func compileAPIKeyModelCapabilitiesForAuth(cfg *internalconfig.Config, auth *Aut
 		if entry := resolveMetaAPIKeyConfig(cfg, auth); entry != nil {
 			compileConfiguredModelCapabilities(out, entry.Models, "meta")
 		}
+	case "mistral":
+		if entry := resolveMistralAPIKeyConfig(cfg, auth); entry != nil {
+			compileConfiguredModelCapabilities(out, entry.Models, "mistral")
+		}
 	default:
 		providerKey, compatName := "", ""
 		if auth.Attributes != nil {

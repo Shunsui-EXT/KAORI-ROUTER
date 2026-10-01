@@ -22,7 +22,10 @@ import (
 	"github.com/tidwall/sjson"
 )
 
-const mistralChatEndpoint = "/v1/chat/completions"
+const (
+	mistralDefaultBaseURL = "https://api.mistral.ai"
+	mistralChatEndpoint   = "/v1/chat/completions"
+)
 
 // MistralExecutor is a stateless executor for the Mistral AI chat completions API.
 // It is an OpenAI-compatible endpoint with a few quirks: it rejects several
@@ -33,6 +36,8 @@ type MistralExecutor struct {
 	provider string
 	cfg      *config.Config
 }
+
+var _ cliproxyauth.ProviderExecutor = (*MistralExecutor)(nil)
 
 // NewMistralExecutor constructs a new Mistral executor.
 func NewMistralExecutor(cfg *config.Config) *MistralExecutor {
@@ -274,7 +279,7 @@ func (e *MistralExecutor) Refresh(ctx context.Context, auth *cliproxyauth.Auth) 
 
 // CountTokens is not supported by the Mistral chat completions API.
 func (e *MistralExecutor) CountTokens(ctx context.Context, auth *cliproxyauth.Auth, req cliproxyexecutor.Request, opts cliproxyexecutor.Options) (cliproxyexecutor.Response, error) {
-	return cliproxyexecutor.Response{}, fmt.Errorf("mistral: count tokens not supported")
+	return cliproxyexecutor.Response{}, statusErr{code: http.StatusNotImplemented, msg: "mistral: count tokens not supported"}
 }
 
 func mistralAPIKey(auth *cliproxyauth.Auth) string {
@@ -284,14 +289,23 @@ func mistralAPIKey(auth *cliproxyauth.Auth) string {
 	return strings.TrimSpace(auth.Attributes["api_key"])
 }
 
-// mistralBaseURL returns the configured base URL for this credential. Sanitization
-// at config-load time guarantees this is always set (see SanitizeMistralKeys),
-// matching how Codex- and xAI-style API keys require an explicit base-url.
+// mistralBaseURL returns the configured base URL for this credential, with any
+// trailing "/v1" stripped since mistralChatEndpoint already includes it (so a
+// base-url of either "https://api.mistral.ai" or "https://api.mistral.ai/v1"
+// resolves to the same request path). Falls back to mistralDefaultBaseURL when
+// unset, covering auths that bypass config-load sanitization (e.g. Home dispatch
+// or plugin-sourced credentials).
 func mistralBaseURL(auth *cliproxyauth.Auth) string {
 	if auth == nil || auth.Attributes == nil {
-		return ""
+		return mistralDefaultBaseURL
 	}
-	return strings.TrimSuffix(strings.TrimSpace(auth.Attributes["base_url"]), "/")
+	baseURL := strings.TrimSpace(auth.Attributes["base_url"])
+	if baseURL == "" {
+		return mistralDefaultBaseURL
+	}
+	baseURL = strings.TrimSuffix(baseURL, "/")
+	baseURL = strings.TrimSuffix(baseURL, "/v1")
+	return baseURL
 }
 
 func resolveMistralModelName(cfg *config.Config, auth *cliproxyauth.Auth, model string) string {
@@ -373,9 +387,15 @@ func shouldDropEmptyMistralAssistantMessage(msg gjson.Result) bool {
 }
 
 // normalizeMistralReasoningEffort forces reasoning_effort to "high" for Mistral
-// models when the field is present, matching Mistral's reasoning-model behavior.
+// reasoning models when the field is present, matching Mistral's reasoning-model
+// behavior. Covers the whole Mistral AI model family, including the Magistral
+// and Ministral lines, not just names containing the literal "mistral".
 func normalizeMistralReasoningEffort(model string, body []byte) []byte {
-	if !strings.Contains(strings.ToLower(strings.TrimSpace(model)), "mistral") {
+	lowerModel := strings.ToLower(strings.TrimSpace(model))
+	isMistralFamily := strings.Contains(lowerModel, "mistral") ||
+		strings.Contains(lowerModel, "magistral") ||
+		strings.Contains(lowerModel, "ministral")
+	if !isMistralFamily {
 		return body
 	}
 	if len(body) == 0 || !gjson.ValidBytes(body) {

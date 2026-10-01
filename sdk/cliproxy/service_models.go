@@ -179,6 +179,7 @@ func (s *Service) registerModelsForAuthWithCache(ctx context.Context, a *coreaut
 		}
 		models = applyExcludedModels(models, excluded)
 	case "mistral":
+		models = registry.GetMistralModels()
 		if entry := s.resolveConfigMistralKey(a); entry != nil {
 			if len(entry.Models) > 0 {
 				models = buildMistralConfigModels(entry)

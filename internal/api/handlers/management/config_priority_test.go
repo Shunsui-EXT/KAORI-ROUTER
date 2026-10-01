@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gin-gonic/gin"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/gin-gonic/gin"
 )
 
 func TestPatchPriorityForEveryProvider(t *testing.T) {
@@ -43,6 +43,15 @@ func TestPatchPriorityForEveryProvider(t *testing.T) {
 			patch:    (*Handler).PatchMetaKey,
 			endpoint: "/v0/management/meta-api-key",
 			get:      func(cfg *config.Config) int { return cfg.MetaKey[0].Priority },
+		},
+		{
+			name: "mistral",
+			setup: func(cfg *config.Config) {
+				cfg.MistralKey = []config.MistralKey{{APIKey: "key", BaseURL: "https://example.com"}}
+			},
+			patch:    (*Handler).PatchMistralKey,
+			endpoint: "/v0/management/mistral-api-key",
+			get:      func(cfg *config.Config) int { return cfg.MistralKey[0].Priority },
 		},
 		{
 			name: "codex",

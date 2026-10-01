@@ -145,7 +145,7 @@ func TestV8PresencePrecedenceAndCleanup(t *testing.T) {
 }
 
 func TestV8KeyInheritance(t *testing.T) {
-	for _, provider := range []string{"gemini", "interactions", "vertex", "codex", "claude", "xai", "meta"} {
+	for _, provider := range []string{"gemini", "interactions", "vertex", "codex", "claude", "xai", "meta", "mistral"} {
 		t.Run(provider, func(t *testing.T) {
 			raw := "request-retry: 9\napi-keys:\n  " + provider + ":\n" + `    - name: shared
       base-url: https://example.invalid

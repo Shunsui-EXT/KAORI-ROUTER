@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gin-gonic/gin"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
+	"github.com/gin-gonic/gin"
 )
 
 func TestPatchDisableCoolingOverrideForEveryFamily(t *testing.T) {
@@ -103,6 +103,18 @@ func TestPatchDisableCoolingOverrideForEveryFamily(t *testing.T) {
 			},
 			patch: (*Handler).PatchMetaKey,
 			get:   func(cfg *config.Config) *bool { return cfg.MetaKey[0].DisableCooling },
+		},
+		{
+			name: "mistral",
+			setup: func(cfg *config.Config) {
+				cfg.MistralKey = []config.MistralKey{{
+					APIKey:         "key",
+					BaseURL:        "https://api.mistral.ai",
+					DisableCooling: &initial,
+				}}
+			},
+			patch: (*Handler).PatchMistralKey,
+			get:   func(cfg *config.Config) *bool { return cfg.MistralKey[0].DisableCooling },
 		},
 	}
 
