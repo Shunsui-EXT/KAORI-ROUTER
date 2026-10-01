@@ -111,6 +111,10 @@
   token string) (*DirectAccessResponse, error)`,
   `gitlab.NormalizeBaseURL(raw string) string`,
   `gitlab.TokenExpiry(now time.Time, token *TokenResponse) time.Time`,
+  `gitlab.MergeDirectAccessMetadata(metadata map[string]any, direct
+  *DirectAccessResponse)` (writes `duo_gateway_*`/`model_provider`/
+  `model_name`/`model_details` keys; shared by Task 2 and Task 4 so
+  neither defines its own private copy),
   `gitlab.ExtractDiscoveredModels(metadata map[string]any)
   []DiscoveredModel` (each with `ModelProvider, ModelName string`).
   Task 2 and Task 4 both consume this package directly.
@@ -280,8 +284,6 @@ package gitlab
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -674,6 +676,65 @@ func (c *AuthClient) FetchDirectAccess(ctx context.Context, baseURL, token strin
 	return &direct, nil
 }
 
+// MergeDirectAccessMetadata merges a direct_access response's gateway
+// token/base-url/headers/model fields into an auth metadata map. Shared by
+// the authenticator (initial login) and the executor (refresh) so both
+// write identical metadata shapes.
+func MergeDirectAccessMetadata(metadata map[string]any, direct *DirectAccessResponse) {
+	if metadata == nil || direct == nil {
+		return
+	}
+	if base := strings.TrimSpace(direct.BaseURL); base != "" {
+		metadata["duo_gateway_base_url"] = base
+	}
+	if token := strings.TrimSpace(direct.Token); token != "" {
+		metadata["duo_gateway_token"] = token
+	}
+	if direct.ExpiresAt > 0 {
+		expiry := time.Unix(direct.ExpiresAt, 0).UTC()
+		metadata["duo_gateway_expires_at"] = expiry.Format(time.RFC3339)
+		now := time.Now().UTC()
+		if ttl := expiry.Sub(now); ttl > 0 {
+			interval := int(ttl.Seconds()) / 2
+			switch {
+			case interval < 60:
+				interval = 60
+			case interval > 240:
+				interval = 240
+			}
+			metadata["refresh_interval_seconds"] = interval
+		}
+	}
+	if len(direct.Headers) > 0 {
+		headers := make(map[string]string, len(direct.Headers))
+		for key, value := range direct.Headers {
+			key = strings.TrimSpace(key)
+			value = strings.TrimSpace(value)
+			if key == "" || value == "" {
+				continue
+			}
+			headers[key] = value
+		}
+		if len(headers) > 0 {
+			metadata["duo_gateway_headers"] = headers
+		}
+	}
+	if direct.ModelDetails != nil {
+		modelDetails := map[string]any{}
+		if provider := strings.TrimSpace(direct.ModelDetails.ModelProvider); provider != "" {
+			modelDetails["model_provider"] = provider
+			metadata["model_provider"] = provider
+		}
+		if model := strings.TrimSpace(direct.ModelDetails.ModelName); model != "" {
+			modelDetails["model_name"] = model
+			metadata["model_name"] = model
+		}
+		if len(modelDetails) > 0 {
+			metadata["model_details"] = modelDetails
+		}
+	}
+}
+
 func ExtractDiscoveredModels(metadata map[string]any) []DiscoveredModel {
 	if len(metadata) == 0 {
 		return nil
@@ -751,15 +812,7 @@ func stringValue(raw any) string {
 		return ""
 	}
 }
-
-var _ = base64.RawURLEncoding // keep import used if trimmed during edits
-var _ = sha256.Sum256
 ```
-
-(Note: the trailing two `var _ =` lines exist only to avoid an unused-import
-error if you trim the file during review — if `base64`/`sha256` end up used
-elsewhere already in your copy, delete those two lines; `gofmt`/`go vet`
-will tell you if they're actually needed.)
 
 - [ ] **Step 8: Run the tests to verify they pass**
 
@@ -784,8 +837,9 @@ git commit -m "feat: add GitLab Duo OAuth/PAT auth client and PKCE callback serv
 - Test: `sdk/auth/gitlab_test.go`
 
 **Interfaces:**
-- Consumes: everything Task 1 produces (`gitlabauth` package), plus this
-  repo's existing `sdk/auth.LoginOptions`, `sdk/auth.Authenticator`
+- Consumes: everything Task 1 produces (`gitlabauth` package, including
+  `gitlabauth.MergeDirectAccessMetadata` — call it directly, do not define
+  a private copy), plus this repo's existing `sdk/auth.LoginOptions`, `sdk/auth.Authenticator`
   interface (`sdk/auth/interfaces.go`), `misc.GenerateRandomState()`,
   `misc.ParseOAuthCallback(input string) (*OAuthCallback, error)`
   (`internal/misc/oauth.go`), `internal/browser.IsAvailable()` /
@@ -1241,63 +1295,8 @@ func buildGitLabAuthMetadata(baseURL, mode string, tokenResp *gitlabauth.TokenRe
 			metadata["oauth_expires_at"] = expiry.Format(time.RFC3339)
 		}
 	}
-	mergeGitLabDirectAccessMetadata(metadata, direct)
+	gitlabauth.MergeDirectAccessMetadata(metadata, direct)
 	return metadata
-}
-
-func mergeGitLabDirectAccessMetadata(metadata map[string]any, direct *gitlabauth.DirectAccessResponse) {
-	if metadata == nil || direct == nil {
-		return
-	}
-	if base := strings.TrimSpace(direct.BaseURL); base != "" {
-		metadata["duo_gateway_base_url"] = base
-	}
-	if token := strings.TrimSpace(direct.Token); token != "" {
-		metadata["duo_gateway_token"] = token
-	}
-	if direct.ExpiresAt > 0 {
-		expiry := time.Unix(direct.ExpiresAt, 0).UTC()
-		metadata["duo_gateway_expires_at"] = expiry.Format(time.RFC3339)
-		now := time.Now().UTC()
-		if ttl := expiry.Sub(now); ttl > 0 {
-			interval := int(ttl.Seconds()) / 2
-			switch {
-			case interval < 60:
-				interval = 60
-			case interval > 240:
-				interval = 240
-			}
-			metadata["refresh_interval_seconds"] = interval
-		}
-	}
-	if len(direct.Headers) > 0 {
-		headers := make(map[string]string, len(direct.Headers))
-		for key, value := range direct.Headers {
-			key = strings.TrimSpace(key)
-			value = strings.TrimSpace(value)
-			if key == "" || value == "" {
-				continue
-			}
-			headers[key] = value
-		}
-		if len(headers) > 0 {
-			metadata["duo_gateway_headers"] = headers
-		}
-	}
-	if direct.ModelDetails != nil {
-		modelDetails := map[string]any{}
-		if provider := strings.TrimSpace(direct.ModelDetails.ModelProvider); provider != "" {
-			modelDetails["model_provider"] = provider
-			metadata["model_provider"] = provider
-		}
-		if model := strings.TrimSpace(direct.ModelDetails.ModelName); model != "" {
-			modelDetails["model_name"] = model
-			metadata["model_name"] = model
-		}
-		if len(modelDetails) > 0 {
-			metadata["model_details"] = modelDetails
-		}
-	}
 }
 
 func (a *GitLabAuthenticator) resolveString(opts *LoginOptions, key, fallback string) string {
@@ -1640,7 +1639,8 @@ git commit -m "feat: add --gitlab-login and --gitlab-token-login CLI flags"
 **Interfaces:**
 - Consumes: Task 1's `gitlab` package (`gitlab.NewAuthClient`,
   `gitlab.NormalizeBaseURL`, `gitlab.TokenExpiry`,
-  `gitlab.ExtractDiscoveredModels`, `gitlab.TokenResponse`,
+  `gitlab.MergeDirectAccessMetadata` — call it directly, do not define a
+  private copy, `gitlab.ExtractDiscoveredModels`, `gitlab.TokenResponse`,
   `gitlab.DirectAccessResponse`), this repo's existing `NewClaudeExecutor
   (cfg *config.Config) *ClaudeExecutor` and `NewCodexExecutor(cfg
   *config.Config) *CodexExecutor` (both confirmed to implement
@@ -1768,8 +1768,6 @@ symbols (the file doesn't exist yet).
 package executor
 
 import (
-	"bufio"
-	"bytes"
 	"context"
 	"fmt"
 	"net/http"
@@ -1914,7 +1912,7 @@ func (e *GitLabExecutor) Refresh(ctx context.Context, auth *cliproxyauth.Auth) (
 	auth.Metadata["auth_kind"] = gitLabAuthKind(method)
 	auth.Metadata["base_url"] = gitlab.NormalizeBaseURL(baseURL)
 	auth.Metadata["last_refresh"] = time.Now().UTC().Format(time.RFC3339)
-	mergeGitLabDirectAccessMetadata(auth.Metadata, direct)
+	gitlab.MergeDirectAccessMetadata(auth.Metadata, direct)
 	return auth, nil
 }
 
@@ -2237,61 +2235,6 @@ func applyGitLabTokenMetadata(metadata map[string]any, tokenResp *gitlab.TokenRe
 	}
 }
 
-func mergeGitLabDirectAccessMetadata(metadata map[string]any, direct *gitlab.DirectAccessResponse) {
-	if metadata == nil || direct == nil {
-		return
-	}
-	if base := strings.TrimSpace(direct.BaseURL); base != "" {
-		metadata["duo_gateway_base_url"] = base
-	}
-	if token := strings.TrimSpace(direct.Token); token != "" {
-		metadata["duo_gateway_token"] = token
-	}
-	if direct.ExpiresAt > 0 {
-		expiry := time.Unix(direct.ExpiresAt, 0).UTC()
-		metadata["duo_gateway_expires_at"] = expiry.Format(time.RFC3339)
-		now := time.Now().UTC()
-		if ttl := expiry.Sub(now); ttl > 0 {
-			interval := int(ttl.Seconds()) / 2
-			switch {
-			case interval < 60:
-				interval = 60
-			case interval > 240:
-				interval = 240
-			}
-			metadata["refresh_interval_seconds"] = interval
-		}
-	}
-	if len(direct.Headers) > 0 {
-		headers := make(map[string]string, len(direct.Headers))
-		for key, value := range direct.Headers {
-			key = strings.TrimSpace(key)
-			value = strings.TrimSpace(value)
-			if key == "" || value == "" {
-				continue
-			}
-			headers[key] = value
-		}
-		if len(headers) > 0 {
-			metadata["duo_gateway_headers"] = headers
-		}
-	}
-	if direct.ModelDetails != nil {
-		modelDetails := map[string]any{}
-		if provider := strings.TrimSpace(direct.ModelDetails.ModelProvider); provider != "" {
-			modelDetails["model_provider"] = provider
-			metadata["model_provider"] = provider
-		}
-		if model := strings.TrimSpace(direct.ModelDetails.ModelName); model != "" {
-			modelDetails["model_name"] = model
-			metadata["model_name"] = model
-		}
-		if len(modelDetails) > 0 {
-			metadata["model_details"] = modelDetails
-		}
-	}
-}
-
 func gitLabAuthKind(method string) string {
 	switch strings.ToLower(strings.TrimSpace(method)) {
 	case gitLabAuthMethodPAT:
@@ -2350,15 +2293,7 @@ func GitLabModelsFromAuth(auth *cliproxyauth.Auth) []*registry.ModelInfo {
 	}
 	return models
 }
-
-var _ = bufio.NewScanner // keep import used if trimmed during edits
-var _ = bytes.NewReader
 ```
-
-(As in Task 1, the two trailing `var _ =` lines are only a safety net for
-unused imports — `bufio`/`bytes` are not actually used by this Phase-1
-file since the SSE-handling fallback is excluded; delete the two lines
-and the two imports together, `gofmt`/`go vet` will confirm.)
 
 - [ ] **Step 4: Run the tests to verify they pass**
 
