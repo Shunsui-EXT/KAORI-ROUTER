@@ -147,6 +147,10 @@ func extractRequestScopedErrorRules(auth *Auth, cfg *internalconfig.Config) []in
 		if index >= 0 && index < len(cfg.MetaKey) {
 			return cfg.MetaKey[index].RequestScopedErrors
 		}
+	case "mistral":
+		if index >= 0 && index < len(cfg.MistralKey) {
+			return cfg.MistralKey[index].RequestScopedErrors
+		}
 	case "gemini":
 		if index >= 0 && index < len(cfg.GeminiKey) {
 			return cfg.GeminiKey[index].RequestScopedErrors

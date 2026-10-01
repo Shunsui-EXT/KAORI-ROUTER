@@ -178,6 +178,16 @@ func (s *Service) registerModelsForAuthWithCache(ctx context.Context, a *coreaut
 			}
 		}
 		models = applyExcludedModels(models, excluded)
+	case "mistral":
+		if entry := s.resolveConfigMistralKey(a); entry != nil {
+			if len(entry.Models) > 0 {
+				models = buildMistralConfigModels(entry)
+			}
+			if authKind == "apikey" {
+				excluded = entry.ExcludedModels
+			}
+		}
+		models = applyExcludedModels(models, excluded)
 	default:
 		// Handle OpenAI-compatibility providers by name using config
 		if s.cfg != nil {
@@ -526,6 +536,13 @@ func (s *Service) resolveConfigMetaKey(auth *coreauth.Auth) *config.MetaKey {
 		return nil
 	}
 	return resolveConfigCodexStyleKey(auth, s.cfg.MetaKey, false)
+}
+
+func (s *Service) resolveConfigMistralKey(auth *coreauth.Auth) *config.MistralKey {
+	if s == nil || s.cfg == nil {
+		return nil
+	}
+	return resolveConfigCodexStyleKey(auth, s.cfg.MistralKey, false)
 }
 
 func resolveConfigCodexStyleKey(auth *coreauth.Auth, entries []config.CodexKey, validateIndexCredentials bool) *config.CodexKey {
@@ -892,6 +909,13 @@ func buildMetaConfigModels(entry *config.MetaKey) []*ModelInfo {
 		return nil
 	}
 	return buildConfigModels(entry.Models, "meta", "meta", "meta")
+}
+
+func buildMistralConfigModels(entry *config.MistralKey) []*ModelInfo {
+	if entry == nil {
+		return nil
+	}
+	return buildConfigModels(entry.Models, "mistral", "mistral", "mistral")
 }
 
 func buildCodexConfigModels(entry *config.CodexKey) []*ModelInfo {

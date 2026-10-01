@@ -637,6 +637,25 @@ requests:
 #         - api-key: "..."
 #           weight: 5 # optional: weighted-round-robin share; omitted defaults to 1; maximum 1,000,000
 #
+#   # Mistral API keys
+#   # Uses the native Mistral executor targeting https://api.mistral.ai.
+#
+#   mistral:
+#     - name: mistral-1
+#       prefix: "mistral" # optional: require calls like "mistral/mistral-large" to target this credential
+#       disable-cooling: false # optional override: true disables cooling, false enables it; omit to inherit global
+#       request-retry: 3 # optional per-auth override; 0 disables additional rounds; omit or set < 0 to inherit global
+#       base-url: "https://api.mistral.ai" # optional: defaults to https://api.mistral.ai
+#       proxy-url: "socks5://proxy.example.com:1080" # optional: per-key proxy override
+#       models:
+#         - name: "mistral-large-latest" # upstream model name
+#           alias: "mistral-large"       # client alias mapped to the upstream model
+#       excluded-models:
+#         - "mistral-small-latest"
+#       keys:
+#         - api-key: "..."
+#           weight: 5 # optional: weighted-round-robin share; omitted defaults to 1; maximum 1,000,000
+#
 #   # OpenAI compatibility providers
 #
 #   openai-compatibility:

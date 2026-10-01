@@ -70,6 +70,8 @@ type APIKeyClientResult struct {
 
 	// MetaKeyCount is the number of Meta API keys loaded
 	MetaKeyCount int
+	// MistralKeyCount is the number of Mistral API keys loaded
+	MistralKeyCount int
 
 	// OpenAICompatCount is the number of OpenAI compatibility API keys loaded
 	OpenAICompatCount int

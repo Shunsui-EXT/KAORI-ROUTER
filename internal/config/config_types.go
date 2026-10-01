@@ -745,6 +745,12 @@ type MetaKey = CodexKey
 // MetaModel uses the Codex model mapping structure for Meta Muse models.
 type MetaModel = CodexModel
 
+// MistralKey uses the Codex API key structure for native Mistral AI execution.
+type MistralKey = CodexKey
+
+// MistralModel uses the Codex model mapping structure for Mistral models.
+type MistralModel = CodexModel
+
 // GeminiKey represents the configuration for a Gemini API key,
 // including optional overrides for upstream base URL, proxy routing, and headers.
 type GeminiKey struct {

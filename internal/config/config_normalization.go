@@ -246,6 +246,14 @@ func (cfg *Config) SanitizeMetaKeys() {
 	cfg.MetaKey = sanitizeMetaKeyEntries(cfg.MetaKey)
 }
 
+// SanitizeMistralKeys normalizes Mistral API key entries, defaulting BaseURL to https://api.mistral.ai if empty.
+func (cfg *Config) SanitizeMistralKeys() {
+	if cfg == nil {
+		return
+	}
+	cfg.MistralKey = sanitizeMistralKeyEntries(cfg.MistralKey)
+}
+
 func sanitizeMetaKeyEntries(entries []MetaKey) []MetaKey {
 	if len(entries) == 0 {
 		return entries
@@ -262,6 +270,30 @@ func sanitizeMetaKeyEntries(entries []MetaKey) []MetaKey {
 		e.BaseURL = strings.TrimSpace(e.BaseURL)
 		if e.BaseURL == "" {
 			e.BaseURL = "https://api.meta.ai/v1"
+		}
+		e.Headers = NormalizeHeaders(e.Headers)
+		e.ExcludedModels = NormalizeExcludedModels(e.ExcludedModels)
+		e.AlphaSearch = false
+		out = append(out, e)
+	}
+	return out
+}
+
+func sanitizeMistralKeyEntries(entries []MistralKey) []MistralKey {
+	if len(entries) == 0 {
+		return entries
+	}
+	out := make([]MistralKey, 0, len(entries))
+	for i := range entries {
+		e := entries[i]
+		e.APIKey = strings.TrimSpace(e.APIKey)
+		if e.APIKey == "" {
+			continue
+		}
+		e.Prefix = normalizeModelPrefix(e.Prefix)
+		e.BaseURL = strings.TrimSpace(e.BaseURL)
+		if e.BaseURL == "" {
+			e.BaseURL = "https://api.mistral.ai"
 		}
 		e.Headers = NormalizeHeaders(e.Headers)
 		e.ExcludedModels = NormalizeExcludedModels(e.ExcludedModels)

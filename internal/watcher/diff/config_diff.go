@@ -444,6 +444,46 @@ func BuildConfigChangeDetails(oldCfg, newCfg *config.Config) []string {
 		}
 	}
 
+	// Mistral keys (do not print key material)
+	if len(oldCfg.MistralKey) != len(newCfg.MistralKey) {
+		changes = append(changes, fmt.Sprintf("mistral-api-key count: %d -> %d", len(oldCfg.MistralKey), len(newCfg.MistralKey)))
+	} else {
+		for i := range oldCfg.MistralKey {
+			o := oldCfg.MistralKey[i]
+			n := newCfg.MistralKey[i]
+			if strings.TrimSpace(o.BaseURL) != strings.TrimSpace(n.BaseURL) {
+				changes = append(changes, fmt.Sprintf("mistral[%d].base-url: %s -> %s", i, formatURL(o.BaseURL), formatURL(n.BaseURL)))
+			}
+			if strings.TrimSpace(o.ProxyURL) != strings.TrimSpace(n.ProxyURL) {
+				changes = append(changes, fmt.Sprintf("mistral[%d].proxy-url: %s -> %s", i, formatProxyURL(o.ProxyURL), formatProxyURL(n.ProxyURL)))
+			}
+			if strings.TrimSpace(o.Prefix) != strings.TrimSpace(n.Prefix) {
+				changes = append(changes, fmt.Sprintf("mistral[%d].prefix: %s -> %s", i, o.Prefix, n.Prefix))
+			}
+			if o.Priority != n.Priority {
+				changes = append(changes, fmt.Sprintf("mistral[%d].priority: %d -> %d", i, o.Priority, n.Priority))
+			}
+			changes = appendOptionalBoolChange(changes, fmt.Sprintf("mistral[%d].disable-cooling", i), o.DisableCooling, n.DisableCooling)
+			changes = appendOptionalIntChange(changes, fmt.Sprintf("mistral[%d].request-retry", i), o.RequestRetry, n.RequestRetry)
+			if strings.TrimSpace(o.APIKey) != strings.TrimSpace(n.APIKey) {
+				changes = append(changes, fmt.Sprintf("mistral[%d].api-key: updated", i))
+			}
+			if !equalStringMap(o.Headers, n.Headers) {
+				changes = append(changes, fmt.Sprintf("mistral[%d].headers: updated", i))
+			}
+			oldModels := SummarizeCodexModels(o.Models)
+			newModels := SummarizeCodexModels(n.Models)
+			if oldModels.hash != newModels.hash {
+				changes = append(changes, fmt.Sprintf("mistral[%d].models: updated (%d -> %d entries)", i, oldModels.count, newModels.count))
+			}
+			oldExcludedMistral := SummarizeExcludedModels(o.ExcludedModels)
+			newExcludedMistral := SummarizeExcludedModels(n.ExcludedModels)
+			if oldExcludedMistral.hash != newExcludedMistral.hash {
+				changes = append(changes, fmt.Sprintf("mistral[%d].excluded-models: updated (%d -> %d entries)", i, oldExcludedMistral.count, newExcludedMistral.count))
+			}
+		}
+	}
+
 	if entries, _ := DiffOAuthExcludedModelChanges(oldCfg.OAuthExcludedModels, newCfg.OAuthExcludedModels); len(entries) > 0 {
 		changes = append(changes, entries...)
 	}

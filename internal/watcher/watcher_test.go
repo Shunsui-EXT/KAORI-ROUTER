@@ -13,13 +13,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fsnotify/fsnotify"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/redisqueue"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/diff"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/watcher/synthesizer"
 	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
 	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
+	"github.com/fsnotify/fsnotify"
 	"gopkg.in/yaml.v3"
 )
 
@@ -68,18 +68,19 @@ func TestBuildAPIKeyClientsCounts(t *testing.T) {
 		VertexCompatAPIKey: []config.VertexCompatKey{
 			{APIKey: "v1"},
 		},
-		ClaudeKey: []config.ClaudeKey{{APIKey: "c1"}},
-		CodexKey:  []config.CodexKey{{APIKey: "c1"}, {APIKey: "c2"}},
-		XAIKey:    []config.XAIKey{{APIKey: "x1"}},
-		MetaKey:   []config.MetaKey{{APIKey: "m1"}},
+		ClaudeKey:  []config.ClaudeKey{{APIKey: "c1"}},
+		CodexKey:   []config.CodexKey{{APIKey: "c1"}, {APIKey: "c2"}},
+		XAIKey:     []config.XAIKey{{APIKey: "x1"}},
+		MetaKey:    []config.MetaKey{{APIKey: "m1"}},
+		MistralKey: []config.MistralKey{{APIKey: "ms1"}},
 		OpenAICompatibility: []config.OpenAICompatibility{
 			{APIKeyEntries: []config.OpenAICompatibilityAPIKey{{APIKey: "o1"}, {APIKey: "o2"}}},
 		},
 	}
 
-	gemini, vertex, claude, codex, xai, meta, compat := BuildAPIKeyClients(cfg)
-	if gemini != 3 || vertex != 1 || claude != 1 || codex != 2 || xai != 1 || meta != 1 || compat != 2 {
-		t.Fatalf("unexpected counts: %d %d %d %d %d %d %d", gemini, vertex, claude, codex, xai, meta, compat)
+	gemini, vertex, claude, codex, xai, meta, mistral, compat := BuildAPIKeyClients(cfg)
+	if gemini != 3 || vertex != 1 || claude != 1 || codex != 2 || xai != 1 || meta != 1 || mistral != 1 || compat != 2 {
+		t.Fatalf("unexpected counts: %d %d %d %d %d %d %d %d", gemini, vertex, claude, codex, xai, meta, mistral, compat)
 	}
 }
 

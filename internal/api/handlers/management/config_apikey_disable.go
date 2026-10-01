@@ -131,6 +131,21 @@ func toggleConfigAPIKeyExcludedAll(cfg *config.Config, auth *coreauth.Auth, disa
 			return true, nil
 		}
 	}
+	for i := range cfg.MistralKey {
+		entry := &cfg.MistralKey[i]
+		key := strings.TrimSpace(entry.APIKey)
+		base := strings.TrimSpace(entry.BaseURL)
+		proxyURL := strings.TrimSpace(entry.ProxyURL)
+		prefix := strings.TrimSpace(entry.Prefix)
+		if key == "" && base == "" {
+			continue
+		}
+		id, _ := idGen.Next("mistral:apikey", key, base, proxyURL, prefix, config.FormatSortedHeaders(entry.Headers))
+		if id == authID {
+			entry.ExcludedModels = setConfigAPIKeyExcludedAll(entry.ExcludedModels, disable)
+			return true, nil
+		}
+	}
 	for i := range cfg.VertexCompatAPIKey {
 		entry := &cfg.VertexCompatAPIKey[i]
 		key := strings.TrimSpace(entry.APIKey)

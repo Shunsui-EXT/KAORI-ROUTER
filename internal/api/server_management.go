@@ -6,8 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/managementasset"
+	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -151,6 +151,11 @@ func (s *Server) registerManagementRoutes() {
 		mgmt.PUT("/meta-api-key", s.mgmt.PutMetaKeys)
 		mgmt.PATCH("/meta-api-key", s.mgmt.PatchMetaKey)
 		mgmt.DELETE("/meta-api-key", s.mgmt.DeleteMetaKey)
+
+		mgmt.GET("/mistral-api-key", s.mgmt.GetMistralKeys)
+		mgmt.PUT("/mistral-api-key", s.mgmt.PutMistralKeys)
+		mgmt.PATCH("/mistral-api-key", s.mgmt.PatchMistralKey)
+		mgmt.DELETE("/mistral-api-key", s.mgmt.DeleteMistralKey)
 
 		mgmt.GET("/openai-compatibility", s.mgmt.GetOpenAICompat)
 		mgmt.PUT("/openai-compatibility", s.mgmt.PutOpenAICompat)

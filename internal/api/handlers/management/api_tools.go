@@ -11,12 +11,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	xaiauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/xai"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
 	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/proxyutil"
+	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -964,6 +964,10 @@ func proxyURLFromAPIKeyConfig(cfg *config.Config, auth *coreauth.Auth) string {
 		}
 	case "meta":
 		if entry := resolveAPIKeyConfig(cfg.MetaKey, auth); entry != nil {
+			return strings.TrimSpace(entry.ProxyURL)
+		}
+	case "mistral":
+		if entry := resolveAPIKeyConfig(cfg.MistralKey, auth); entry != nil {
 			return strings.TrimSpace(entry.ProxyURL)
 		}
 	}
