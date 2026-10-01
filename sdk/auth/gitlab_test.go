@@ -4,10 +4,10 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 
-	gitlabauth "github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/gitlab"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 )
 
@@ -54,37 +54,39 @@ func TestGitLabAuthenticator_RequireInput_FailsWhenNothingProvided(t *testing.T)
 }
 
 func TestGitLabAuthenticator_LoginOAuth_RejectsStateMismatch(t *testing.T) {
-	// The OAuth server itself only forwards whatever state the callback URL
-	// carries; the mismatch check happens in loginOAuth after the callback
-	// is received. We can't easily drive the full browser-based flow in a
-	// unit test, so this test exercises the OAuthServer + the comparison
-	// logic directly via the same code path loginOAuth uses.
-	port := 18271
-	server := gitlabauth.NewOAuthServer(port)
-	if err := server.Start(); err != nil {
-		t.Fatalf("failed to start server: %v", err)
+	a := &GitLabAuthenticator{CallbackPort: 18273}
+	opts := &LoginOptions{
+		NoBrowser:    true,
+		CallbackPort: 18273,
+		Metadata: map[string]string{
+			"base_url":        "https://gitlab.example.com",
+			"oauth_client_id": "test-client-id",
+		},
 	}
-	defer func() { _ = server.Stop(nil) }() //nolint:errcheck
 
+	errCh := make(chan error, 1)
 	go func() {
-		time.Sleep(50 * time.Millisecond)
-		resp, errGet := http.Get("http://localhost:18271/auth/callback?code=abc&state=wrong-state")
-		if errGet == nil {
-			_ = resp.Body.Close()
-		}
+		_, err := a.loginOAuth(context.Background(), &config.Config{}, opts)
+		errCh <- err
 	}()
 
-	result, err := server.WaitForCallback(2 * time.Second)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
+	// Give loginOAuth time to start its OAuthServer before we hit the callback.
+	time.Sleep(200 * time.Millisecond)
+	resp, errGet := http.Get("http://localhost:18273/auth/callback?code=abc123&state=wrong-state")
+	if errGet == nil {
+		_ = resp.Body.Close()
 	}
-	expectedState := "correct-state"
-	if result.State == expectedState {
-		t.Fatal("test setup error: result.State should not equal expectedState")
-	}
-	// This mirrors loginOAuth's own check: result.State != state → reject.
-	if result.State == expectedState {
-		t.Error("expected state mismatch to be detectable")
+
+	select {
+	case err := <-errCh:
+		if err == nil {
+			t.Fatal("expected an error for a mismatched OAuth state")
+		}
+		if !strings.Contains(err.Error(), "state mismatch") {
+			t.Errorf("expected a state-mismatch error, got: %v", err)
+		}
+	case <-time.After(5 * time.Second):
+		t.Fatal("timed out waiting for loginOAuth to return")
 	}
 }
 
