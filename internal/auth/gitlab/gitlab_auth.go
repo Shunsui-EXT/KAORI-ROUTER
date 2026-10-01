@@ -305,28 +305,38 @@ func (c *AuthClient) postToken(ctx context.Context, tokenURL string, form url.Va
 	return &token, nil
 }
 
-func (c *AuthClient) GetCurrentUser(ctx context.Context, baseURL, token string) (*User, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, NormalizeBaseURL(baseURL)+"/api/v4/user", nil)
+// doAuthenticatedRequest performs an authenticated request (bearer token,
+// JSON accept) with no body, checks the status range, and returns the raw
+// response body. Callers unmarshal into their own type.
+func (c *AuthClient) doAuthenticatedRequest(ctx context.Context, method, baseURL, path, token string) ([]byte, error) {
+	req, err := http.NewRequestWithContext(ctx, method, NormalizeBaseURL(baseURL)+path, nil)
 	if err != nil {
-		return nil, fmt.Errorf("gitlab user request failed: %w", err)
+		return nil, fmt.Errorf("gitlab request failed: %w", err)
 	}
 	req.Header.Set("Authorization", "Bearer "+strings.TrimSpace(token))
 	req.Header.Set("Accept", "application/json")
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("gitlab user request failed: %w", err)
+		return nil, fmt.Errorf("gitlab request failed: %w", err)
 	}
 	defer func() { _ = resp.Body.Close() }()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("gitlab user response read failed: %w", err)
+		return nil, fmt.Errorf("gitlab response read failed: %w", err)
 	}
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("gitlab user request failed with status %d: %s", resp.StatusCode, strings.TrimSpace(string(body)))
+		return nil, fmt.Errorf("gitlab request failed with status %d: %s", resp.StatusCode, strings.TrimSpace(string(body)))
 	}
+	return body, nil
+}
 
+func (c *AuthClient) GetCurrentUser(ctx context.Context, baseURL, token string) (*User, error) {
+	body, err := c.doAuthenticatedRequest(ctx, http.MethodGet, baseURL, "/api/v4/user", token)
+	if err != nil {
+		return nil, err
+	}
 	var user User
 	if err := json.Unmarshal(body, &user); err != nil {
 		return nil, fmt.Errorf("gitlab user response decode failed: %w", err)
@@ -335,27 +345,10 @@ func (c *AuthClient) GetCurrentUser(ctx context.Context, baseURL, token string) 
 }
 
 func (c *AuthClient) GetPersonalAccessTokenSelf(ctx context.Context, baseURL, token string) (*PersonalAccessTokenSelf, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, NormalizeBaseURL(baseURL)+"/api/v4/personal_access_tokens/self", nil)
+	body, err := c.doAuthenticatedRequest(ctx, http.MethodGet, baseURL, "/api/v4/personal_access_tokens/self", token)
 	if err != nil {
-		return nil, fmt.Errorf("gitlab PAT self request failed: %w", err)
+		return nil, err
 	}
-	req.Header.Set("Authorization", "Bearer "+strings.TrimSpace(token))
-	req.Header.Set("Accept", "application/json")
-
-	resp, err := c.httpClient.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("gitlab PAT self request failed: %w", err)
-	}
-	defer func() { _ = resp.Body.Close() }()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("gitlab PAT self response read failed: %w", err)
-	}
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("gitlab PAT self request failed with status %d: %s", resp.StatusCode, strings.TrimSpace(string(body)))
-	}
-
 	var pat PersonalAccessTokenSelf
 	if err := json.Unmarshal(body, &pat); err != nil {
 		return nil, fmt.Errorf("gitlab PAT self response decode failed: %w", err)
@@ -364,27 +357,10 @@ func (c *AuthClient) GetPersonalAccessTokenSelf(ctx context.Context, baseURL, to
 }
 
 func (c *AuthClient) FetchDirectAccess(ctx context.Context, baseURL, token string) (*DirectAccessResponse, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, NormalizeBaseURL(baseURL)+"/api/v4/code_suggestions/direct_access", nil)
+	body, err := c.doAuthenticatedRequest(ctx, http.MethodPost, baseURL, "/api/v4/code_suggestions/direct_access", token)
 	if err != nil {
-		return nil, fmt.Errorf("gitlab direct access request failed: %w", err)
+		return nil, err
 	}
-	req.Header.Set("Authorization", "Bearer "+strings.TrimSpace(token))
-	req.Header.Set("Accept", "application/json")
-
-	resp, err := c.httpClient.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("gitlab direct access request failed: %w", err)
-	}
-	defer func() { _ = resp.Body.Close() }()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("gitlab direct access response read failed: %w", err)
-	}
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("gitlab direct access request failed with status %d: %s", resp.StatusCode, strings.TrimSpace(string(body)))
-	}
-
 	var direct DirectAccessResponse
 	if err := json.Unmarshal(body, &direct); err != nil {
 		return nil, fmt.Errorf("gitlab direct access response decode failed: %w", err)
