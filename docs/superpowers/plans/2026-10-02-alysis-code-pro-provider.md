@@ -1440,7 +1440,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/alysis"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/config"
 	_ "github.com/Shunsui-EXT/KAORI-ROUTER/internal/translator"
 	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
@@ -1582,14 +1581,7 @@ func TestFetchAlysisModels_MergesLiveCatalog(t *testing.T) {
 		t.Error("expected a static-catalog-only model to still be present (merge, not replace)")
 	}
 }
-
-var _ = alysis.ProductSiteURL // keep the alysis import used if trimmed during edits
 ```
-
-(As with earlier providers in this project: the trailing `var _ =` line
-is only a safety net — if `alysis.ProductSiteURL` ends up genuinely
-unused after you finish, delete that line and the `alysis` import
-together; `gofmt`/`go vet` will confirm either way.)
 
 - [ ] **Step 7: Run the integration tests**
 
