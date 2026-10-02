@@ -113,15 +113,15 @@ func TestFetchAlysisModels_FallsBackOnFetchFailure(t *testing.T) {
 
 	auth := &cliproxyauth.Auth{Metadata: map[string]any{"gatewayKey": "slk_test_token"}}
 	models := FetchAlysisModels(context.Background(), auth, &config.Config{})
-	if len(models) != 3 {
-		t.Fatalf("expected the 3-entry static fallback catalog, got %d entries", len(models))
+	if len(models) != 4 {
+		t.Fatalf("expected the 4-entry static fallback catalog, got %d entries", len(models))
 	}
 }
 
 func TestFetchAlysisModels_MergesLiveCatalog(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"data":[{"id":"deepseek-v4-flash"},{"id":"deepseek-v5-preview","name":"DeepSeek V5 Preview"}]}`))
+		_, _ = w.Write([]byte(`{"data":[{"id":"deepseek-flash"},{"id":"deepseek-v5-preview","name":"DeepSeek V5 Preview"}]}`))
 	}))
 	defer server.Close()
 
@@ -137,7 +137,7 @@ func TestFetchAlysisModels_MergesLiveCatalog(t *testing.T) {
 		if m.ID == "deepseek-v5-preview" {
 			sawNewModel = true
 		}
-		if m.ID == "deepseek-v4-pro" {
+		if m.ID == "claude-sonnet-5-5" {
 			sawStaticModel = true // from the static catalog, not in the live response
 		}
 	}

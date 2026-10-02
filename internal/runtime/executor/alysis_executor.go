@@ -316,6 +316,9 @@ func FetchAlysisModels(ctx context.Context, auth *cliproxyauth.Auth, cfg *config
 	if key := alysisCredentials(auth); key != "" {
 		req.Header.Set("Authorization", "Bearer "+key)
 	}
+	// Matches the official alysis-code CLI's User-Agent for model-catalog
+	// discovery calls (provider_model_catalog.py: _USER_AGENT = "alysis-code").
+	req.Header.Set("User-Agent", "alysis-code")
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
@@ -366,7 +369,7 @@ func FetchAlysisModels(ctx context.Context, auth *cliproxyauth.Auth, cfg *config
 		merged = append(merged, &registry.ModelInfo{
 			ID:          id,
 			DisplayName: displayName,
-			Name:        displayName,
+			Name:        id,
 			OwnedBy:     "alysis",
 			Type:        "alysis",
 			Object:      "model",
