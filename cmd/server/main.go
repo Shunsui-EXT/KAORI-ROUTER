@@ -17,7 +17,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/joho/godotenv"
 	configaccess "github.com/Shunsui-EXT/KAORI-ROUTER/internal/access/config_access"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/api"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/buildinfo"
@@ -39,6 +38,7 @@ import (
 	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
 	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	sdkpluginstore "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginstore"
+	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -115,6 +115,7 @@ func main() {
 	var xaiLogin bool
 	var devinLogin bool
 	var metaLogin bool
+	var alysisLogin bool
 	var discoverGateways bool
 	var discoverTimeout int
 	var discoverJSON bool
@@ -144,6 +145,7 @@ func main() {
 	flag.BoolVar(&xaiLogin, "xai-login", false, "Login to xAI using OAuth")
 	flag.BoolVar(&devinLogin, "devin-login", false, "Login to Devin using OAuth")
 	flag.BoolVar(&metaLogin, "meta-login", false, "Login to Meta using OAuth")
+	flag.BoolVar(&alysisLogin, "alysis-login", false, "Login to Alysis Code Pro using a device-flow")
 	flag.BoolVar(&discoverGateways, "discover", false, "Discover local AI gateways and CPA instances on the LAN")
 	flag.IntVar(&discoverTimeout, "discover-timeout", 3, "Timeout in seconds for LAN discovery (default 3s)")
 	flag.BoolVar(&discoverJSON, "discover-json", false, "Output discovered gateways in JSON format")
@@ -654,7 +656,7 @@ func main() {
 		CallbackPort: oauthCallbackPort,
 	}
 
-	commandMode := vertexImport != "" || antigravityLogin || codexLogin || codexDeviceLogin || claudeLogin || kimiLogin || kimiAILogin || xaiLogin || devinLogin || metaLogin
+	commandMode := vertexImport != "" || antigravityLogin || codexLogin || codexDeviceLogin || claudeLogin || kimiLogin || kimiAILogin || xaiLogin || devinLogin || metaLogin || alysisLogin
 	cloudConfigMissing := isCloudDeploy && !configFileExists
 	homeMode := configLoadedFromHome || (cfg != nil && cfg.Home.Enabled)
 	exampleAPIKeySafeMode := shouldEnableExampleAPIKeySafeMode(cfg, commandMode, tuiMode, standalone, cloudConfigMissing, homeMode)
@@ -732,6 +734,8 @@ func main() {
 		cmd.DoXAILogin(cfg, options)
 	} else if devinLogin {
 		cmd.DoDevinLogin(cfg, options)
+	} else if alysisLogin {
+		cmd.DoAlysisLogin(cfg, options)
 	} else if metaLogin {
 		cmd.DoMetaLogin(cfg, options)
 	} else {
@@ -968,7 +972,7 @@ func argvEnablesBoolFlag(args []string, name string) bool {
 func argvFlagConsumesValue(name string) bool {
 	switch name {
 	case "codex-login", "codex-device-login", "claude-login", "no-browser",
-		"antigravity-login", "kimi-login", "kimi-ai-login", "xai-login", "devin-login", "meta-login",
+		"antigravity-login", "kimi-login", "kimi-ai-login", "xai-login", "devin-login", "meta-login", "alysis-login",
 		"discover", "discover-json", "home-disable-cluster-discovery",
 		"tui", "standalone", "local-model":
 		return false
