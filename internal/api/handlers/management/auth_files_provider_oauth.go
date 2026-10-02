@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/alysis"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/antigravity"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/claude"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/auth/codex"
@@ -25,6 +25,7 @@ import (
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
 	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginapi"
+	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -632,6 +633,104 @@ func (h *Handler) RequestXAIToken(c *gin.Context) {
 		response["expires_in"] = deviceFlow.ExpiresIn
 	} else {
 		response["expires_in"] = int(xaiauth.MaxPollDuration / time.Second)
+	}
+	c.JSON(200, response)
+}
+
+// RequestAlysisToken implements GET /v0/management/alysis-auth-url.
+// Alysis uses an RFC 8628-style device flow (no local callback): POST
+// /functions/v1/device-code then poll /functions/v1/device-token until the
+// user approves the code on https://alysiscode.com/activate.
+func (h *Handler) RequestAlysisToken(c *gin.Context) {
+	ctx := context.Background()
+	ctx = PopulateAuthContext(ctx, c)
+
+	fmt.Println("Initializing Alysis authentication...")
+
+	state := fmt.Sprintf("alysis-%d", time.Now().UnixNano())
+	authSvc := alysis.NewAuth()
+
+	grant, errStart := authSvc.InitiateDeviceFlow(ctx)
+	if errStart != nil {
+		log.Errorf("Failed to start Alysis device flow: %v", errStart)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to start device authorization flow"})
+		return
+	}
+	authURL := strings.TrimSpace(grant.VerificationURLComplete)
+	if authURL == "" {
+		authURL = strings.TrimSpace(grant.VerificationURL)
+	}
+	if authURL == "" {
+		authURL = alysis.ProductSiteURL + "/activate"
+	}
+
+	RegisterOAuthSession(state, "alysis")
+
+	go func() {
+		pollCtx, cancelPoll := context.WithCancel(ctx)
+		defer cancelPoll()
+		go watchOAuthSessionCancel(pollCtx, cancelPoll, state, "alysis")
+
+		fmt.Println("Waiting for Alysis authentication...")
+		status, errWait := authSvc.PollForToken(pollCtx, grant.DeviceCode)
+		if errWait != nil {
+			if !IsOAuthSessionPending(state, "alysis") {
+				return
+			}
+			log.Errorf("Alysis authentication failed: %v", errWait)
+			SetOAuthSessionError(state, oauthSessionErrorWithCause("Authentication failed", errWait))
+			return
+		}
+		if !IsOAuthSessionPending(state, "alysis") {
+			return
+		}
+
+		ts := &alysis.TokenStorage{
+			Key:  status.Key,
+			Type: "alysis",
+		}
+		fileName := alysis.CredentialFileName("")
+		label := "Alysis Code Pro"
+
+		metadata := map[string]any{
+			"type":       "alysis",
+			"gatewayKey": ts.Key,
+			"email":      "",
+			"auth_kind":  "oauth",
+		}
+
+		record := &coreauth.Auth{
+			ID:       fileName,
+			Provider: "alysis",
+			FileName: fileName,
+			Label:    label,
+			Storage:  ts,
+			Metadata: metadata,
+			Attributes: map[string]string{
+				"auth_kind": "oauth",
+			},
+		}
+		if errGuard := guardOAuthSessionPendingForSave(state, "alysis"); errGuard != nil {
+			return
+		}
+		savedPath, errSave := h.saveTokenRecord(ctx, record)
+		if errSave != nil {
+			log.Errorf("Failed to save Alysis token to file: %v", errSave)
+			SetOAuthSessionError(state, "Failed to save token to file")
+			return
+		}
+
+		CompleteOAuthSession(state)
+		fmt.Printf("Authentication successful! Token saved to %s\n", savedPath)
+		fmt.Println("You can now use Alysis Code Pro through this CLI")
+	}()
+
+	response := gin.H{"status": "ok", "url": authURL, "state": state, "flow": "device"}
+	if userCode := strings.TrimSpace(grant.UserCode); userCode != "" {
+		response["user_code"] = userCode
+	}
+	if grant.ExpiresIn > 0 {
+		response["expires_in"] = grant.ExpiresIn
 	}
 	c.JSON(200, response)
 }
