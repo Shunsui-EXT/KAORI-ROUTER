@@ -214,6 +214,7 @@ func baselineExecutorAuths() []*coreauth.Auth {
 		"devin",
 		"meta",
 		"mistral",
+		"gitlab",
 		"openai-compatibility",
 	}
 	auths := make([]*coreauth.Auth, 0, len(providers))
@@ -314,6 +315,8 @@ func (s *Service) registerExecutorForAuth(a *coreauth.Auth, forceReplace bool) {
 		s.coreManager.RegisterExecutor(executor.NewMetaExecutor(cfg))
 	case "mistral":
 		s.coreManager.RegisterExecutor(executor.NewMistralExecutor(cfg))
+	case "gitlab":
+		s.coreManager.RegisterExecutor(executor.NewGitLabExecutor(cfg))
 	default:
 		providerKey := strings.ToLower(strings.TrimSpace(a.Provider))
 		if providerKey == "" {
