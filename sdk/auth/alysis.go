@@ -61,7 +61,7 @@ func (a *AlysisAuthenticator) Login(ctx context.Context, cfg *config.Config, opt
 	fmt.Printf("And approve code: %s\n", grant.UserCode)
 
 	fmt.Println("Waiting for authorization...")
-	status, err := authSvc.PollForToken(ctx, grant.DeviceCode)
+	status, err := authSvc.PollForToken(ctx, grant.DeviceCode, time.Duration(grant.Interval)*time.Second)
 	if err != nil {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}

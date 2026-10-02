@@ -672,7 +672,7 @@ func (h *Handler) RequestAlysisToken(c *gin.Context) {
 		go watchOAuthSessionCancel(pollCtx, cancelPoll, state, "alysis")
 
 		fmt.Println("Waiting for Alysis authentication...")
-		status, errWait := authSvc.PollForToken(pollCtx, grant.DeviceCode)
+		status, errWait := authSvc.PollForToken(pollCtx, grant.DeviceCode, time.Duration(grant.Interval)*time.Second)
 		if errWait != nil {
 			if !IsOAuthSessionPending(state, "alysis") {
 				return

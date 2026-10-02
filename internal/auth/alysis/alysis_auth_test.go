@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 )
 
 func TestInitiateDeviceFlow_Success(t *testing.T) {
@@ -56,7 +57,7 @@ func TestPollForToken_ApprovedOnFirstProbe(t *testing.T) {
 	defer func() { SupabaseURL = originalURL }()
 
 	auth := NewAuth()
-	status, err := auth.PollForToken(context.Background(), "dc-123")
+	status, err := auth.PollForToken(context.Background(), "dc-123", 0)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -77,7 +78,7 @@ func TestPollForToken_Denied(t *testing.T) {
 	defer func() { SupabaseURL = originalURL }()
 
 	auth := NewAuth()
-	_, err := auth.PollForToken(context.Background(), "dc-123")
+	_, err := auth.PollForToken(context.Background(), "dc-123", 0)
 	if err == nil {
 		t.Fatal("expected an error when login is denied")
 	}
@@ -95,7 +96,7 @@ func TestPollForToken_Expired(t *testing.T) {
 	defer func() { SupabaseURL = originalURL }()
 
 	auth := NewAuth()
-	_, err := auth.PollForToken(context.Background(), "dc-123")
+	_, err := auth.PollForToken(context.Background(), "dc-123", 0)
 	if err == nil {
 		t.Fatal("expected an error when the device code has expired")
 	}
@@ -113,7 +114,7 @@ func TestPollForToken_NotFound(t *testing.T) {
 	defer func() { SupabaseURL = originalURL }()
 
 	auth := NewAuth()
-	_, err := auth.PollForToken(context.Background(), "dc-123")
+	_, err := auth.PollForToken(context.Background(), "dc-123", 0)
 	if err == nil {
 		t.Fatal("expected an error when the device code is not found")
 	}
@@ -131,7 +132,7 @@ func TestPollForToken_AlreadyClaimed(t *testing.T) {
 	defer func() { SupabaseURL = originalURL }()
 
 	auth := NewAuth()
-	_, err := auth.PollForToken(context.Background(), "dc-123")
+	_, err := auth.PollForToken(context.Background(), "dc-123", 0)
 	if err == nil {
 		t.Fatal("expected an error when the device code was already claimed")
 	}
@@ -152,8 +153,40 @@ func TestPollForToken_RespectsContextCancellation(t *testing.T) {
 	cancel()
 
 	auth := NewAuth()
-	_, err := auth.PollForToken(ctx, "dc-123")
+	_, err := auth.PollForToken(ctx, "dc-123", 0)
 	if err == nil {
 		t.Fatal("expected PollForToken to respect an already-cancelled context")
+	}
+}
+
+func TestPollForToken_HonorsCustomInterval(t *testing.T) {
+	var requestCount int
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requestCount++
+		w.Header().Set("Content-Type", "application/json")
+		if requestCount == 1 {
+			_ = json.NewEncoder(w).Encode(DeviceTokenResponse{Status: "pending"})
+			return
+		}
+		_ = json.NewEncoder(w).Encode(DeviceTokenResponse{Status: "approved", Key: "slk_fast123"})
+	}))
+	defer server.Close()
+
+	originalURL := SupabaseURL
+	SupabaseURL = server.URL
+	defer func() { SupabaseURL = originalURL }()
+
+	auth := NewAuth()
+	start := time.Now()
+	status, err := auth.PollForToken(context.Background(), "dc-123", 50*time.Millisecond)
+	elapsed := time.Since(start)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if status.Key != "slk_fast123" {
+		t.Errorf("expected key slk_fast123, got %q", status.Key)
+	}
+	if elapsed >= 1*time.Second {
+		t.Errorf("expected PollForToken to honor the short custom interval and finish well under 1s, took %v", elapsed)
 	}
 }

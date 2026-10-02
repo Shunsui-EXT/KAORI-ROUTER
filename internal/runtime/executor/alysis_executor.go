@@ -304,7 +304,7 @@ func FetchAlysisModels(ctx context.Context, auth *cliproxyauth.Auth, cfg *config
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
 	httpClient := helps.NewProxyAwareHTTPClient(ctx, cfg, auth, 0)
@@ -366,6 +366,7 @@ func FetchAlysisModels(ctx context.Context, auth *cliproxyauth.Auth, cfg *config
 		merged = append(merged, &registry.ModelInfo{
 			ID:          id,
 			DisplayName: displayName,
+			Name:        displayName,
 			OwnedBy:     "alysis",
 			Type:        "alysis",
 			Object:      "model",

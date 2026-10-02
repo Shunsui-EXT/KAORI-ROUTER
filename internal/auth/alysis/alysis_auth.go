@@ -99,7 +99,7 @@ func (a *Auth) InitiateDeviceFlow(ctx context.Context) (*DeviceCodeResponse, err
 // status semantics mirror the reference CLI: status "approved" carries the
 // gateway key, "denied" and "expired"/"not_found"/"already_claimed" abort,
 // anything else keeps polling. Polling always respects ctx cancellation.
-func (a *Auth) PollForToken(ctx context.Context, deviceCode string) (*DeviceTokenResponse, error) {
+func (a *Auth) PollForToken(ctx context.Context, deviceCode string, interval time.Duration) (*DeviceTokenResponse, error) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
@@ -109,13 +109,16 @@ func (a *Auth) PollForToken(ctx context.Context, deviceCode string) (*DeviceToke
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
+	if interval <= 0 {
+		interval = 5 * time.Second
+	}
 
 	// Probe immediately so a just-approved code does not wait a full interval.
 	if status, done, err := a.pollOnce(ctx, deviceCode); done || err != nil {
 		return status, err
 	}
 
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
 	for {
 		select {
