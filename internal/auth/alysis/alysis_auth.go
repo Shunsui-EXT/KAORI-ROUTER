@@ -148,8 +148,12 @@ func (a *Auth) pollOnce(ctx context.Context, deviceCode string) (*DeviceTokenRes
 		return &resp, true, nil
 	case "denied":
 		return nil, true, fmt.Errorf("alysis device flow: login was rejected on the website")
-	case "expired", "not_found", "already_claimed":
+	case "expired":
 		return nil, true, fmt.Errorf("alysis device flow: login code expired")
+	case "not_found":
+		return nil, true, fmt.Errorf("alysis device flow: device code not found")
+	case "already_claimed":
+		return nil, true, fmt.Errorf("alysis device flow: device code already claimed")
 	default: // "pending" or unknown: keep waiting.
 		return nil, false, nil
 	}

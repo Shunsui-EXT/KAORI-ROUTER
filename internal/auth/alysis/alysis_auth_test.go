@@ -101,6 +101,42 @@ func TestPollForToken_Expired(t *testing.T) {
 	}
 }
 
+func TestPollForToken_NotFound(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(DeviceTokenResponse{Status: "not_found"})
+	}))
+	defer server.Close()
+
+	originalURL := SupabaseURL
+	SupabaseURL = server.URL
+	defer func() { SupabaseURL = originalURL }()
+
+	auth := NewAuth()
+	_, err := auth.PollForToken(context.Background(), "dc-123")
+	if err == nil {
+		t.Fatal("expected an error when the device code is not found")
+	}
+}
+
+func TestPollForToken_AlreadyClaimed(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(DeviceTokenResponse{Status: "already_claimed"})
+	}))
+	defer server.Close()
+
+	originalURL := SupabaseURL
+	SupabaseURL = server.URL
+	defer func() { SupabaseURL = originalURL }()
+
+	auth := NewAuth()
+	_, err := auth.PollForToken(context.Background(), "dc-123")
+	if err == nil {
+		t.Fatal("expected an error when the device code was already claimed")
+	}
+}
+
 func TestPollForToken_RespectsContextCancellation(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
