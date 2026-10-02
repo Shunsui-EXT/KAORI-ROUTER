@@ -45,6 +45,26 @@ func (e *AlysisExecutor) chatCompletionsURL() string {
 	return alysisGatewayBase + "/chat/completions"
 }
 
+// alysisTargetForModel picks the translator format and gateway endpoint
+// path for a given model. Alysis's hosted gateway serves different model
+// families through different wire formats: DeepSeek/GLM models accept
+// plain OpenAI chat-completions, GPT-family models require the OpenAI
+// Responses API shape at /responses, and Claude-family models require
+// the Anthropic Messages API shape at /messages (confirmed via live
+// 400 responses naming the correct endpoint for each). Any unrecognized
+// model name falls back to the chat-completions default.
+func alysisTargetForModel(baseModel string) (sdktranslator.Format, string) {
+	model := strings.ToLower(strings.TrimSpace(baseModel))
+	switch {
+	case strings.HasPrefix(model, "claude-"):
+		return sdktranslator.FormatClaude, "/messages"
+	case strings.HasPrefix(model, "gpt-"):
+		return sdktranslator.FormatOpenAIResponse, "/responses"
+	default:
+		return sdktranslator.FormatOpenAI, "/chat/completions"
+	}
+}
+
 // HttpRequest injects the Alysis gateway key into the supplied request and executes it.
 func (e *AlysisExecutor) HttpRequest(ctx context.Context, auth *cliproxyauth.Auth, req *http.Request) (*http.Response, error) {
 	if req == nil {
