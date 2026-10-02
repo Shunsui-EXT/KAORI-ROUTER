@@ -212,6 +212,7 @@ func baselineExecutorAuths() []*coreauth.Auth {
 		"kimi.ai",
 		"xai",
 		"devin",
+		"alysis",
 		"meta",
 		"mistral",
 		"openai-compatibility",
@@ -310,6 +311,8 @@ func (s *Service) registerExecutorForAuth(a *coreauth.Auth, forceReplace bool) {
 		s.coreManager.RegisterExecutor(executor.NewXAIAutoExecutor(cfg))
 	case "devin":
 		s.coreManager.RegisterExecutor(executor.NewDevinExecutor(cfg))
+	case "alysis":
+		s.coreManager.RegisterExecutor(executor.NewAlysisExecutor(cfg))
 	case "meta":
 		s.coreManager.RegisterExecutor(executor.NewMetaExecutor(cfg))
 	case "mistral":

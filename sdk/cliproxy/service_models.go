@@ -9,6 +9,7 @@ import (
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/constant"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/modelconfig"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
 	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
@@ -166,6 +167,9 @@ func (s *Service) registerModelsForAuthWithCache(ctx context.Context, a *coreaut
 		models = applyExcludedModels(models, excluded)
 	case "devin":
 		models = registry.GetDevinModels()
+		models = applyExcludedModels(models, excluded)
+	case "alysis":
+		models = executor.FetchAlysisModels(ctx, a, s.cfg)
 		models = applyExcludedModels(models, excluded)
 	case "meta":
 		models = registry.GetMetaModels()
