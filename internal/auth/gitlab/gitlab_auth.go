@@ -1,4 +1,3 @@
-// internal/auth/gitlab/gitlab_auth.go
 package gitlab
 
 import (

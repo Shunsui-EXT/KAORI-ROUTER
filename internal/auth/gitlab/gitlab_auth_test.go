@@ -1,4 +1,3 @@
-// internal/auth/gitlab/gitlab_auth_test.go
 package gitlab
 
 import (
@@ -8,9 +7,8 @@ import (
 )
 
 func TestOAuthServer_HandleCallback_Success(t *testing.T) {
-	server := NewOAuthServer(0) // port 0 would fail isPortAvailable's bind check in Start; use a free port instead
 	port := 18171
-	server = NewOAuthServer(port)
+	server := NewOAuthServer(port)
 	if err := server.Start(); err != nil {
 		t.Fatalf("failed to start server: %v", err)
 	}
@@ -55,5 +53,35 @@ func TestOAuthServer_HandleCallback_UserDeniedConsent(t *testing.T) {
 	}
 	if result.Error != "access_denied" {
 		t.Errorf("expected Error %q, got %+v", "access_denied", result)
+	}
+}
+
+func TestMergeDirectAccessMetadata_RefreshIntervalClampsToUpperBound(t *testing.T) {
+	metadata := map[string]any{}
+	direct := &DirectAccessResponse{
+		BaseURL:   "https://gitlab.example.com/ai",
+		Token:     "gw-token",
+		ExpiresAt: time.Now().Add(1 * time.Hour).Unix(), // ttl/2 = 1800s, well above the 240s ceiling
+	}
+
+	MergeDirectAccessMetadata(metadata, direct)
+
+	if got := metadata["refresh_interval_seconds"]; got != 240 {
+		t.Errorf("expected refresh_interval_seconds to clamp to 240, got %v", got)
+	}
+}
+
+func TestMergeDirectAccessMetadata_RefreshIntervalClampsToLowerBound(t *testing.T) {
+	metadata := map[string]any{}
+	direct := &DirectAccessResponse{
+		BaseURL:   "https://gitlab.example.com/ai",
+		Token:     "gw-token",
+		ExpiresAt: time.Now().Add(10 * time.Second).Unix(), // ttl/2 = 5s, below the 60s floor
+	}
+
+	MergeDirectAccessMetadata(metadata, direct)
+
+	if got := metadata["refresh_interval_seconds"]; got != 60 {
+		t.Errorf("expected refresh_interval_seconds to clamp to 60, got %v", got)
 	}
 }

@@ -13,8 +13,10 @@ import (
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor/helps"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/thinking"
+	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/util"
 	cliproxyauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	cliproxyexecutor "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/executor"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -22,29 +24,6 @@ const (
 	gitLabAuthMethodOAuth = "oauth"
 	gitLabAuthMethodPAT   = "pat"
 )
-
-type gitLabCatalogModel struct {
-	ID          string
-	DisplayName string
-	Provider    string
-}
-
-var gitLabAgenticCatalog = []gitLabCatalogModel{
-	{ID: "duo-chat-gpt-5-1", DisplayName: "GitLab Duo (GPT-5.1)", Provider: "openai"},
-	{ID: "duo-chat-opus-4-6", DisplayName: "GitLab Duo (Claude Opus 4.6)", Provider: "anthropic"},
-	{ID: "duo-chat-opus-4-5", DisplayName: "GitLab Duo (Claude Opus 4.5)", Provider: "anthropic"},
-	{ID: "duo-chat-sonnet-4-6", DisplayName: "GitLab Duo (Claude Sonnet 4.6)", Provider: "anthropic"},
-	{ID: "duo-chat-sonnet-4-5", DisplayName: "GitLab Duo (Claude Sonnet 4.5)", Provider: "anthropic"},
-	{ID: "duo-chat-gpt-5-mini", DisplayName: "GitLab Duo (GPT-5 Mini)", Provider: "openai"},
-	{ID: "duo-chat-gpt-5-2", DisplayName: "GitLab Duo (GPT-5.2)", Provider: "openai"},
-	{ID: "duo-chat-gpt-5-2-codex", DisplayName: "GitLab Duo (GPT-5.2 Codex)", Provider: "openai"},
-	{ID: "duo-chat-gpt-5-codex", DisplayName: "GitLab Duo (GPT-5 Codex)", Provider: "openai"},
-	{ID: "duo-chat-haiku-4-5", DisplayName: "GitLab Duo (Claude Haiku 4.5)", Provider: "anthropic"},
-}
-
-var gitLabModelAliases = map[string]string{
-	"duo-chat-haiku-4-6": "duo-chat-haiku-4-5",
-}
 
 // GitLabExecutor implements cliproxyauth.ProviderExecutor for GitLab Duo.
 // Phase 1: it only serves accounts whose GitLab `direct_access` metadata
@@ -99,6 +78,11 @@ func (e *GitLabExecutor) HttpRequest(ctx context.Context, auth *cliproxyauth.Aut
 	if token := gitLabPrimaryToken(auth); token != "" {
 		httpReq.Header.Set("Authorization", "Bearer "+token)
 	}
+	var attrs map[string]string
+	if auth != nil {
+		attrs = auth.Attributes
+	}
+	util.ApplyCustomHeadersFromAttrs(httpReq, attrs)
 	return helps.NewProxyAwareHTTPClient(ctx, e.cfg, auth, 0).Do(httpReq)
 }
 
@@ -118,8 +102,11 @@ func (e *GitLabExecutor) Refresh(ctx context.Context, auth *cliproxyauth.Auth) (
 		method = gitLabAuthMethodOAuth
 	}
 
+	var oauthRefreshErr error
 	if method == gitLabAuthMethodOAuth {
-		if refreshed, refreshErr := e.refreshOAuthToken(ctx, client, auth, baseURL); refreshErr == nil && refreshed != nil {
+		if refreshed, refreshErr := e.refreshOAuthToken(ctx, client, auth, baseURL); refreshErr != nil {
+			oauthRefreshErr = logGitLabOAuthRefreshErr(refreshErr)
+		} else if refreshed != nil {
 			token = refreshed.AccessToken
 			applyGitLabTokenMetadata(auth.Metadata, refreshed)
 		}
@@ -127,13 +114,18 @@ func (e *GitLabExecutor) Refresh(ctx context.Context, auth *cliproxyauth.Auth) (
 
 	direct, err := client.FetchDirectAccess(ctx, baseURL, token)
 	if err != nil && method == gitLabAuthMethodOAuth {
-		if refreshed, refreshErr := e.refreshOAuthToken(ctx, client, auth, baseURL); refreshErr == nil && refreshed != nil {
+		if refreshed, refreshErr := e.refreshOAuthToken(ctx, client, auth, baseURL); refreshErr != nil {
+			oauthRefreshErr = logGitLabOAuthRefreshErr(refreshErr)
+		} else if refreshed != nil {
 			token = refreshed.AccessToken
 			applyGitLabTokenMetadata(auth.Metadata, refreshed)
 			direct, err = client.FetchDirectAccess(ctx, baseURL, token)
 		}
 	}
 	if err != nil {
+		if oauthRefreshErr != nil {
+			return nil, fmt.Errorf("gitlab duo executor: oauth token refresh failed: %w (direct_access also failed: %v)", oauthRefreshErr, err)
+		}
 		return nil, err
 	}
 
@@ -167,6 +159,23 @@ func (e *GitLabExecutor) refreshOAuthToken(ctx context.Context, client *gitlab.A
 		gitLabMetadataString(auth.Metadata, "oauth_client_secret"),
 		refreshToken,
 	)
+}
+
+// logGitLabOAuthRefreshErr logs an OAuth refresh failure and returns it
+// unless it is the benign "refresh token missing" case (PAT-derived auths,
+// or auths that have not done an OAuth login, simply have no refresh token).
+// Any other failure (e.g. a revoked grant) is logged at Warn and returned so
+// the caller can propagate it when the fallback direct_access call also fails.
+func logGitLabOAuthRefreshErr(err error) error {
+	if err == nil {
+		return nil
+	}
+	if strings.Contains(err.Error(), "refresh token missing") {
+		log.WithField("provider", "gitlab").Debugf("gitlab oauth token refresh skipped: %v", err)
+		return nil
+	}
+	log.WithField("provider", "gitlab").Warnf("gitlab oauth token refresh failed: %v", err)
+	return err
 }
 
 func gitLabNativeGatewayUnavailableErr() error {
@@ -403,9 +412,6 @@ func gitLabBaseURL(auth *cliproxyauth.Auth) string {
 func gitLabResolvedModel(auth *cliproxyauth.Auth, requested string) string {
 	requested = strings.TrimSpace(thinking.ParseSuffix(requested).ModelName)
 	if requested != "" && !strings.EqualFold(requested, "gitlab-duo") {
-		if mapped, ok := gitLabModelAliases[strings.ToLower(requested)]; ok && strings.TrimSpace(mapped) != "" {
-			return mapped
-		}
 		return requested
 	}
 	if auth != nil && auth.Metadata != nil {
@@ -477,12 +483,14 @@ func gitLabAuthKind(method string) string {
 	}
 }
 
-// GitLabModelsFromAuth lists the stable "gitlab-duo" alias, a small static
-// catalog of known duo-chat-* model IDs, and any model GitLab's
-// direct_access metadata currently reports for this specific account.
+// GitLabModelsFromAuth lists the stable "gitlab-duo" alias and any model
+// GitLab's direct_access metadata currently reports for this specific
+// account. There is no hardcoded catalog: GitLab Duo's own model IDs are
+// not valid Anthropic/OpenAI model IDs, so advertising them here would
+// make them selectable (and routable) without a working upstream mapping.
 func GitLabModelsFromAuth(auth *cliproxyauth.Auth) []*registry.ModelInfo {
-	models := make([]*registry.ModelInfo, 0, len(gitLabAgenticCatalog)+4)
-	seen := make(map[string]struct{}, len(gitLabAgenticCatalog)+4)
+	models := make([]*registry.ModelInfo, 0, 4)
+	seen := make(map[string]struct{}, 4)
 	addModel := func(id, displayName string) {
 		id = strings.TrimSpace(id)
 		if id == "" {
@@ -504,12 +512,6 @@ func GitLabModelsFromAuth(auth *cliproxyauth.Auth) []*registry.ModelInfo {
 	}
 
 	addModel("gitlab-duo", "GitLab Duo")
-	for _, model := range gitLabAgenticCatalog {
-		addModel(model.ID, model.DisplayName)
-	}
-	for alias := range gitLabModelAliases {
-		addModel(alias, "GitLab Duo Alias")
-	}
 	if auth == nil {
 		return models
 	}

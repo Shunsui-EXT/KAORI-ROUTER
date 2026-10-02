@@ -1,4 +1,3 @@
-// internal/auth/gitlab/pkce_test.go
 package gitlab
 
 import (
