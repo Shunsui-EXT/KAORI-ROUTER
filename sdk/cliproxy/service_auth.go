@@ -28,7 +28,6 @@ func newDefaultAuthManager() *sdkAuth.Manager {
 		sdkAuth.NewXAIAuthenticator(),
 		sdkAuth.NewDevinAuthenticator(),
 		sdkAuth.NewMetaAuthenticator(),
-		sdkAuth.NewGitLabAuthenticator(),
 	)
 }
 

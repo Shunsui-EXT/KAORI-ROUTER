@@ -9,7 +9,6 @@ import (
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/constant"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/modelconfig"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/registry"
-	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/runtime/executor"
 	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/sdk/config"
 )
@@ -189,9 +188,6 @@ func (s *Service) registerModelsForAuthWithCache(ctx context.Context, a *coreaut
 				excluded = entry.ExcludedModels
 			}
 		}
-		models = applyExcludedModels(models, excluded)
-	case "gitlab":
-		models = executor.GitLabModelsFromAuth(a)
 		models = applyExcludedModels(models, excluded)
 	default:
 		// Handle OpenAI-compatibility providers by name using config

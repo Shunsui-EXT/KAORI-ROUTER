@@ -17,6 +17,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/joho/godotenv"
 	configaccess "github.com/Shunsui-EXT/KAORI-ROUTER/internal/access/config_access"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/api"
 	"github.com/Shunsui-EXT/KAORI-ROUTER/internal/buildinfo"
@@ -38,7 +39,6 @@ import (
 	sdkAuth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/auth"
 	coreauth "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/cliproxy/auth"
 	sdkpluginstore "github.com/Shunsui-EXT/KAORI-ROUTER/sdk/pluginstore"
-	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -115,8 +115,6 @@ func main() {
 	var xaiLogin bool
 	var devinLogin bool
 	var metaLogin bool
-	var gitlabLogin bool
-	var gitlabTokenLogin bool
 	var discoverGateways bool
 	var discoverTimeout int
 	var discoverJSON bool
@@ -146,8 +144,6 @@ func main() {
 	flag.BoolVar(&xaiLogin, "xai-login", false, "Login to xAI using OAuth")
 	flag.BoolVar(&devinLogin, "devin-login", false, "Login to Devin using OAuth")
 	flag.BoolVar(&metaLogin, "meta-login", false, "Login to Meta using OAuth")
-	flag.BoolVar(&gitlabLogin, "gitlab-login", false, "Login to GitLab Duo using OAuth")
-	flag.BoolVar(&gitlabTokenLogin, "gitlab-token-login", false, "Login to GitLab Duo using a personal access token")
 	flag.BoolVar(&discoverGateways, "discover", false, "Discover local AI gateways and CPA instances on the LAN")
 	flag.IntVar(&discoverTimeout, "discover-timeout", 3, "Timeout in seconds for LAN discovery (default 3s)")
 	flag.BoolVar(&discoverJSON, "discover-json", false, "Output discovered gateways in JSON format")
@@ -658,7 +654,7 @@ func main() {
 		CallbackPort: oauthCallbackPort,
 	}
 
-	commandMode := vertexImport != "" || antigravityLogin || codexLogin || codexDeviceLogin || claudeLogin || kimiLogin || kimiAILogin || xaiLogin || devinLogin || metaLogin || gitlabLogin || gitlabTokenLogin
+	commandMode := vertexImport != "" || antigravityLogin || codexLogin || codexDeviceLogin || claudeLogin || kimiLogin || kimiAILogin || xaiLogin || devinLogin || metaLogin
 	cloudConfigMissing := isCloudDeploy && !configFileExists
 	homeMode := configLoadedFromHome || (cfg != nil && cfg.Home.Enabled)
 	exampleAPIKeySafeMode := shouldEnableExampleAPIKeySafeMode(cfg, commandMode, tuiMode, standalone, cloudConfigMissing, homeMode)
@@ -738,10 +734,6 @@ func main() {
 		cmd.DoDevinLogin(cfg, options)
 	} else if metaLogin {
 		cmd.DoMetaLogin(cfg, options)
-	} else if gitlabLogin {
-		cmd.DoGitLabLogin(cfg, options)
-	} else if gitlabTokenLogin {
-		cmd.DoGitLabTokenLogin(cfg, options)
 	} else {
 		// In cloud deploy mode without config file, just wait for shutdown signals
 		if isCloudDeploy && !configFileExists {
@@ -977,7 +969,6 @@ func argvFlagConsumesValue(name string) bool {
 	switch name {
 	case "codex-login", "codex-device-login", "claude-login", "no-browser",
 		"antigravity-login", "kimi-login", "kimi-ai-login", "xai-login", "devin-login", "meta-login",
-		"gitlab-login", "gitlab-token-login",
 		"discover", "discover-json", "home-disable-cluster-discovery",
 		"tui", "standalone", "local-model":
 		return false
