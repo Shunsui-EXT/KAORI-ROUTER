@@ -54,9 +54,9 @@ func TestAlysisTargetForModel(t *testing.T) {
 	}
 }
 
-func TestAlysisChatCompletionsURL(t *testing.T) {
+func TestAlysisGatewayURL(t *testing.T) {
 	e := NewAlysisExecutor(nil)
-	got := e.chatCompletionsURL()
+	got := e.gatewayURL("/chat/completions")
 	want := "https://vzigujbcjjmpntxhmyvr.supabase.co/functions/v1/llm/v1/chat/completions"
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)

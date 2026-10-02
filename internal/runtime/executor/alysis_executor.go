@@ -41,8 +41,8 @@ func (e *AlysisExecutor) Identifier() string { return "alysis" }
 // alysisGatewayBase is overridable in tests.
 var alysisGatewayBase = alysis.SupabaseURL + alysis.GatewayPathPrefix
 
-func (e *AlysisExecutor) chatCompletionsURL() string {
-	return alysisGatewayBase + "/chat/completions"
+func (e *AlysisExecutor) gatewayURL(endpoint string) string {
+	return alysisGatewayBase + endpoint
 }
 
 // alysisTargetForModel picks the translator format and gateway endpoint
@@ -99,11 +99,12 @@ func (e *AlysisExecutor) Execute(ctx context.Context, auth *cliproxyauth.Auth, r
 		return
 	}
 
+	to, endpoint := alysisTargetForModel(baseModel)
 	from := opts.SourceFormat
-	to := sdktranslator.FromString("openai")
-	translated := sdktranslator.TranslateRequest(from, to, baseModel, bytes.Clone(req.Payload), false)
+	upstreamStream := to == sdktranslator.FormatClaude
+	translated := sdktranslator.TranslateRequest(from, to, baseModel, bytes.Clone(req.Payload), upstreamStream)
 
-	url := e.chatCompletionsURL()
+	url := e.gatewayURL(endpoint)
 	httpReq, errReq := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(translated))
 	if errReq != nil {
 		return resp, errReq
@@ -160,7 +161,19 @@ func (e *AlysisExecutor) Execute(ctx context.Context, auth *cliproxyauth.Auth, r
 		return resp, errRead
 	}
 	helps.AppendAPIResponseChunk(ctx, e.cfg, body)
-	reporter.Publish(ctx, helps.ParseOpenAIUsage(body))
+	if upstreamStream {
+		for _, line := range bytes.Split(body, []byte("\n")) {
+			trimmed := bytes.TrimSpace(line)
+			if len(trimmed) == 0 {
+				continue
+			}
+			if detail, ok := helps.ParseClaudeStreamUsage(trimmed); ok {
+				reporter.Publish(ctx, detail)
+			}
+		}
+	} else {
+		reporter.Publish(ctx, helps.ParseOpenAIUsage(body))
+	}
 	reporter.EnsurePublished(ctx)
 
 	var param any
@@ -182,11 +195,11 @@ func (e *AlysisExecutor) ExecuteStream(ctx context.Context, auth *cliproxyauth.A
 		return nil, err
 	}
 
+	to, endpoint := alysisTargetForModel(baseModel)
 	from := opts.SourceFormat
-	to := sdktranslator.FromString("openai")
 	translated := sdktranslator.TranslateRequest(from, to, baseModel, bytes.Clone(req.Payload), true)
 
-	url := e.chatCompletionsURL()
+	url := e.gatewayURL(endpoint)
 	httpReq, errReq := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(translated))
 	if errReq != nil {
 		return nil, errReq
@@ -256,8 +269,14 @@ func (e *AlysisExecutor) ExecuteStream(ctx context.Context, auth *cliproxyauth.A
 				continue
 			}
 			helps.AppendAPIResponseChunk(ctx, e.cfg, trimmed)
-			if detail, ok := helps.ParseOpenAIStreamUsage(trimmed); ok {
-				reporter.Publish(ctx, detail)
+			if to == sdktranslator.FormatClaude {
+				if detail, ok := helps.ParseClaudeStreamUsage(trimmed); ok {
+					reporter.Publish(ctx, detail)
+				}
+			} else {
+				if detail, ok := helps.ParseOpenAIStreamUsage(trimmed); ok {
+					reporter.Publish(ctx, detail)
+				}
 			}
 			chunks := sdktranslator.TranslateStream(ctx, to, from, req.Model, opts.OriginalRequest, translated, bytes.Clone(trimmed), &param)
 			for i := range chunks {
