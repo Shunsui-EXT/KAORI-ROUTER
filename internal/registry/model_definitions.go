@@ -563,6 +563,29 @@ func GetMistralModels() []*ModelInfo {
 	return models
 }
 
+// GetAlysisModels returns the static Alysis Code Pro fallback catalog. It
+// mirrors the models the reference CLI observed on the gateway; the live
+// catalog is fetched at runtime from the gateway's OpenAI-shaped /models
+// endpoint and this list is only used when that fetch fails or returns
+// fewer entries.
+func GetAlysisModels() []*ModelInfo {
+	now := int64(1790860800) // 2026-10-01
+	return []*ModelInfo{
+		{
+			ID:            "deepseek-v4-flash",
+			Object:        "model",
+			Created:       now,
+			OwnedBy:       "alysis",
+			Type:          "alysis",
+			DisplayName:   "DeepSeek V4 Flash",
+			Description:   "Alysis Code Pro flagship default model",
+			ContextLength: 128000,
+		},
+		{ID: "deepseek-v4-pro", DisplayName: "DeepSeek V4 Pro", OwnedBy: "alysis", Type: "alysis", Object: "model", Created: now},
+		{ID: "deepseek-v4-flash-vision-exp", DisplayName: "DeepSeek V4 Flash Vision (Exp)", OwnedBy: "alysis", Type: "alysis", Object: "model", Created: now},
+	}
+}
+
 // LookupStaticModelInfo searches all static model definitions for a model by ID.
 // Returns nil if no matching model is found.
 func LookupStaticModelInfo(modelID string) *ModelInfo {
