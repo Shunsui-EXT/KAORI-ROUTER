@@ -106,11 +106,14 @@ func TestAlysisExecutor_Execute_UpstreamErrorSurfaced(t *testing.T) {
 func TestAlysisExecutor_Execute_RoutesGPTModelsToResponsesEndpoint(t *testing.T) {
 	var sawPath string
 	var sawAuthHeader string
+	var sawStreamField bool
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		sawPath = r.URL.Path
 		sawAuthHeader = r.Header.Get("Authorization")
-		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"id":"resp_1","object":"response","status":"completed","output":[{"id":"msg_1","type":"message","role":"assistant","content":[{"type":"output_text","text":"luna-pong"}]}],"usage":{"input_tokens":5,"output_tokens":1,"total_tokens":6}}`))
+		bodyBytes, _ := io.ReadAll(r.Body)
+		sawStreamField = gjson.GetBytes(bodyBytes, "stream").Bool()
+		w.Header().Set("Content-Type", "text/event-stream")
+		_, _ = w.Write([]byte(`data: {"type":"response.completed","response":{"id":"resp_1","object":"response","status":"completed","output":[{"id":"msg_1","type":"message","role":"assistant","content":[{"type":"output_text","text":"luna-pong"}]}],"usage":{"input_tokens":5,"output_tokens":1,"total_tokens":6}}}` + "\n\n"))
 	}))
 	defer server.Close()
 
@@ -133,8 +136,14 @@ func TestAlysisExecutor_Execute_RoutesGPTModelsToResponsesEndpoint(t *testing.T)
 	if sawPath != "/responses" {
 		t.Errorf("expected request path %q, got %q", "/responses", sawPath)
 	}
+	if !sawStreamField {
+		t.Errorf("expected the upstream request to set stream:true for the Codex-routed gpt-6-luna path")
+	}
 	if sawAuthHeader != "Bearer slk_luna_token" {
 		t.Errorf("expected Authorization %q, got %q", "Bearer slk_luna_token", sawAuthHeader)
+	}
+	if !strings.Contains(string(resp.Payload), `"object":"chat.completion"`) {
+		t.Errorf("expected a translated chat.completion object, got: %s", resp.Payload)
 	}
 	if !strings.Contains(string(resp.Payload), "luna-pong") {
 		t.Errorf("expected translated response to contain %q, got: %s", "luna-pong", resp.Payload)
@@ -196,6 +205,9 @@ func TestAlysisExecutor_Execute_RoutesClaudeModelsToMessagesEndpoint(t *testing.
 	if sawAuthHeader != "Bearer slk_sonnet_token" {
 		t.Errorf("expected auth header to carry %q, got %q", "Bearer slk_sonnet_token", sawAuthHeader)
 	}
+	if !strings.Contains(string(resp.Payload), `"object":"chat.completion"`) {
+		t.Errorf("expected a translated chat.completion object, got: %s", resp.Payload)
+	}
 	if !strings.Contains(string(resp.Payload), "sonnet-pong") {
 		t.Errorf("expected translated response to contain %q, got: %s", "sonnet-pong", resp.Payload)
 	}
@@ -207,9 +219,9 @@ func TestAlysisExecutor_ExecuteStream_RoutesGPTModelsToResponsesEndpoint(t *test
 		sawPath = r.URL.Path
 		w.Header().Set("Content-Type", "text/event-stream")
 		if flusher, ok := w.(http.Flusher); ok {
-			_, _ = w.Write([]byte("data: {\"type\":\"response.output_item.done\",\"item\":{\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"output_text\",\"text\":\"luna-stream-pong\"}]},\"output_index\":0}\n"))
+			_, _ = w.Write([]byte("data: " + `{"type":"response.output_text.delta","delta":"luna-stream-pong"}` + "\n\n"))
 			flusher.Flush()
-			_, _ = w.Write([]byte("data: {\"type\":\"response.completed\",\"response\":{\"id\":\"resp_1\",\"object\":\"response\",\"status\":\"completed\",\"output\":[],\"usage\":{\"input_tokens\":5,\"output_tokens\":1,\"total_tokens\":6}}}\n\n"))
+			_, _ = w.Write([]byte("data: " + `{"type":"response.completed","response":{"id":"resp_1","usage":{"input_tokens":5,"output_tokens":1,"total_tokens":6}}}` + "\n\n"))
 			flusher.Flush()
 		}
 	}))
@@ -243,6 +255,9 @@ func TestAlysisExecutor_ExecuteStream_RoutesGPTModelsToResponsesEndpoint(t *test
 	}
 	if !strings.Contains(collected.String(), "luna-stream-pong") {
 		t.Errorf("expected streamed output to contain %q, got: %s", "luna-stream-pong", collected.String())
+	}
+	if !strings.Contains(collected.String(), `"object":"chat.completion.chunk"`) {
+		t.Errorf("expected translated chat.completion.chunk payloads, got: %s", collected.String())
 	}
 }
 
@@ -299,6 +314,9 @@ func TestAlysisExecutor_ExecuteStream_RoutesClaudeModelsToMessagesEndpoint(t *te
 	}
 	if !strings.Contains(collected.String(), "sonnet-stream-pong") {
 		t.Errorf("expected streamed output to contain %q, got: %s", "sonnet-stream-pong", collected.String())
+	}
+	if !strings.Contains(collected.String(), `"object":"chat.completion.chunk"`) {
+		t.Errorf("expected translated chat.completion.chunk payloads, got: %s", collected.String())
 	}
 }
 

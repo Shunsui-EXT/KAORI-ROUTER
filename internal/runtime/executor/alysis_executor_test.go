@@ -38,11 +38,11 @@ func TestAlysisTargetForModel(t *testing.T) {
 	}{
 		{"deepseek-flash", sdktranslator.FormatOpenAI, "/chat/completions"},
 		{"glm-5.3-flash", sdktranslator.FormatOpenAI, "/chat/completions"},
-		{"gpt-6-luna", sdktranslator.FormatOpenAIResponse, "/responses"},
+		{"gpt-6-luna", sdktranslator.FormatCodex, "/responses"},
 		{"claude-sonnet-5-5", sdktranslator.FormatClaude, "/messages"},
 		{"some-future-model", sdktranslator.FormatOpenAI, "/chat/completions"},
 		{"Claude-Sonnet-5-5", sdktranslator.FormatClaude, "/messages"},
-		{" gpt-6-luna ", sdktranslator.FormatOpenAIResponse, "/responses"},
+		{" gpt-6-luna ", sdktranslator.FormatCodex, "/responses"},
 		{"", sdktranslator.FormatOpenAI, "/chat/completions"},
 	}
 	for _, c := range cases {

@@ -59,7 +59,7 @@ func alysisTargetForModel(baseModel string) (sdktranslator.Format, string) {
 	case strings.HasPrefix(model, "claude-"):
 		return sdktranslator.FormatClaude, "/messages"
 	case strings.HasPrefix(model, "gpt-"):
-		return sdktranslator.FormatOpenAIResponse, "/responses"
+		return sdktranslator.FormatCodex, "/responses"
 	default:
 		return sdktranslator.FormatOpenAI, "/chat/completions"
 	}
@@ -101,7 +101,7 @@ func (e *AlysisExecutor) Execute(ctx context.Context, auth *cliproxyauth.Auth, r
 
 	to, endpoint := alysisTargetForModel(baseModel)
 	from := opts.SourceFormat
-	upstreamStream := to == sdktranslator.FormatClaude
+	upstreamStream := to == sdktranslator.FormatClaude || to == sdktranslator.FormatCodex
 	translated := sdktranslator.TranslateRequest(from, to, baseModel, bytes.Clone(req.Payload), upstreamStream)
 
 	url := e.gatewayURL(endpoint)
@@ -111,7 +111,12 @@ func (e *AlysisExecutor) Execute(ctx context.Context, auth *cliproxyauth.Auth, r
 	}
 	httpReq.Header.Set("Content-Type", "application/json")
 	httpReq.Header.Set("Authorization", "Bearer "+apiKey)
-	httpReq.Header.Set("Accept", "application/json")
+	if upstreamStream {
+		httpReq.Header.Set("Accept", "text/event-stream")
+		httpReq.Header.Set("Cache-Control", "no-cache")
+	} else {
+		httpReq.Header.Set("Accept", "application/json")
+	}
 	var attrs map[string]string
 	if auth != nil {
 		attrs = auth.Attributes
@@ -161,7 +166,8 @@ func (e *AlysisExecutor) Execute(ctx context.Context, auth *cliproxyauth.Auth, r
 		return resp, errRead
 	}
 	helps.AppendAPIResponseChunk(ctx, e.cfg, body)
-	if upstreamStream {
+	switch {
+	case to == sdktranslator.FormatClaude:
 		for _, line := range bytes.Split(body, []byte("\n")) {
 			trimmed := bytes.TrimSpace(line)
 			if len(trimmed) == 0 {
@@ -171,7 +177,33 @@ func (e *AlysisExecutor) Execute(ctx context.Context, auth *cliproxyauth.Auth, r
 				reporter.Publish(ctx, detail)
 			}
 		}
-	} else {
+	case to == sdktranslator.FormatCodex:
+		var completedEventData []byte
+		for _, line := range bytes.Split(body, []byte("\n")) {
+			trimmed := bytes.TrimSpace(line)
+			if !bytes.HasPrefix(trimmed, []byte("data:")) {
+				continue
+			}
+			eventData := bytes.TrimSpace(trimmed[len("data:"):])
+			if len(eventData) == 0 {
+				continue
+			}
+			if detail, ok := helps.ParseCodexUsage(eventData); ok {
+				reporter.Publish(ctx, detail)
+			}
+			if completedEventData == nil {
+				eventType := gjson.GetBytes(eventData, "type").String()
+				if eventType == "response.completed" || eventType == "response.incomplete" {
+					completedEventData = eventData
+				}
+			}
+		}
+		if completedEventData == nil {
+			err = fmt.Errorf("alysis: no response.completed event found in gpt model response")
+			return resp, err
+		}
+		body = completedEventData
+	default:
 		reporter.Publish(ctx, helps.ParseOpenAIUsage(body))
 	}
 	reporter.EnsurePublished(ctx)
@@ -269,11 +301,20 @@ func (e *AlysisExecutor) ExecuteStream(ctx context.Context, auth *cliproxyauth.A
 				continue
 			}
 			helps.AppendAPIResponseChunk(ctx, e.cfg, trimmed)
-			if to == sdktranslator.FormatClaude {
+			switch {
+			case to == sdktranslator.FormatClaude:
 				if detail, ok := helps.ParseClaudeStreamUsage(trimmed); ok {
 					reporter.Publish(ctx, detail)
 				}
-			} else {
+			case to == sdktranslator.FormatCodex:
+				if bytes.HasPrefix(trimmed, []byte("data:")) {
+					if eventData := bytes.TrimSpace(trimmed[len("data:"):]); len(eventData) > 0 {
+						if detail, ok := helps.ParseCodexUsage(eventData); ok {
+							reporter.Publish(ctx, detail)
+						}
+					}
+				}
+			default:
 				if detail, ok := helps.ParseOpenAIStreamUsage(trimmed); ok {
 					reporter.Publish(ctx, detail)
 				}
